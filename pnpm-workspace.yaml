@@ -1,0 +1,8 @@
+# stockfish's postinstall only symlinks stockfish.js -> the full build; we copy
+# the lite-single build into public/engine ourselves, so the script stays off.
+allowBuilds:
+  stockfish: false
+# KOL packages are our own same-day publishes — the release-age gate only
+# fights the bump loop. Exclude the scope once instead of per-version.
+minimumReleaseAgeExclude:
+  - '@kolkrabbi/*'

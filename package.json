@@ -1,0 +1,33 @@
+{
+  "name": "kol-chess",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@kolkrabbi/kol-chess": "^0.4.1",
+    "@kolkrabbi/kol-component": "^0.11.0",
+    "@kolkrabbi/kol-framework": "^0.5.0",
+    "@kolkrabbi/kol-icons": "^0.7.0",
+    "@kolkrabbi/kol-theme": "^0.9.1",
+    "@tailwindcss/vite": "^4.3.2",
+    "chess.js": "1.4.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.18.1",
+    "stockfish": "^18.0.8",
+    "tailwindcss": "^4.3.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "oxlint": "^1.71.0",
+    "vite": "^8.1.1"
+  }
+}
