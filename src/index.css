@@ -5,3 +5,11 @@
    or its board/control utility classes never generate. */
 @source "../node_modules/@kolkrabbi/kol-chess/src";
 @source "../node_modules/@kolkrabbi/kol-component/src";
+@source "../node_modules/@kolkrabbi/kol-dashboards/src";
+
+/* Page canvas follows the theme surface. The DS themes components but never sets
+   a body background, so without this the page stays white in dark mode. */
+body {
+  background-color: var(--kol-surface-primary);
+  color: var(--kol-surface-on-primary);
+}

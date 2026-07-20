@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useChessControls } from '@kolkrabbi/kol-chess'
 import { Badge, Button } from '@kolkrabbi/kol-component'
 import { useEngine } from './useEngine'
+import GameReview from './ReviewPanel'
 import { toWhiteCp, uciToSan, classifyMove } from './uci'
 import { loadOpeningIndex } from '../openings/openings'
 import { deepestOpening, epdOf } from '../openings/openingBook'
@@ -123,6 +124,7 @@ const AnalysisPanel = () => {
         </div>
       )}
       {engineOn && <OpeningStrip />}
+      <GameReview />
     </div>
   )
 }

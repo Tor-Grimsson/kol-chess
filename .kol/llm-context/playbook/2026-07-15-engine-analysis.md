@@ -102,3 +102,18 @@
 
 [21:06 GMT · 2026-07-15] · log · session-log/2026-07-15-engine-toggle-dead-features-brief-3.md written · AGENT-CONTEXT updated (chain trimmed to 5)
   note → post-milestone tail logged: icons round 2 · engine toggle · dead-features investigation · brief 3.0
+
+[22:47 GMT · 2026-07-15] · scope/archive · docs/DESIGN-SYSTEM-AUDIT-4.0.md (new)
+  what → brief 4.0 = archive "load entire set": `<all>` first dropdown item (opens on it) · scope-aware button "Load entire set"/"Load month" (generic, NOT "Load Nov 2020") · fetch on click not mount · wire to existing loadFullDataset()
+  why → dashboard (plan 03) needs whole set; data half already exists upstream, only the GameArchiveTable UI seam missing
+  note → confirmed upstream-only: dropdown+button live in GameArchiveTable.jsx; ChessAnalysisLayout exposes only overlayActions/panel/externalGame — no archive-toolbar seam to inject from here
+
+[22:47 GMT · 2026-07-15] · scope/game-review · llm-plan/02-engine-analysis.md ("Later — game review" → SCOPED)
+  what → math = public Lichess/chess.com model: eval→Win% logistic · per-move accuracy from win%-drop · per-side = mean(volatility-weighted, harmonic) · classification by cp-loss + brilliant/great heuristics off MultiPV · build = reviewRunner (seq d14) + extend uci.js + aggregator + summary UI, all app-side
+  note → 3 user repos fetched — READMEs don't expose algorithms; ranked as constant-cribbing refs: Chesskit (cleanest TS) · Wazir (win%-model check) · Brilliant-Chess (brilliant heuristic)
+
+[22:47 GMT · 2026-07-15] · scope/stats · llm-plan/03-statistics-dashboard.md (new) · plan 02 stub → pointer
+  what → chess stats site on published @kolkrabbi/kol-dashboards@0.1.0 (SVG cards+charts, no d3, source-only/Vite-locked, consumer-injected data)
+  note → COMPOSE its primitives (DashboardGrid + metric/table/chart cards + LineChart/DonutChart/Heatmap), NOT its MetricsDashboard apparatus (hardwired to deploy/hosting/B2 data contract — wrong domain)
+  note → ⚠ #1 risk: package pins stale kol deps (component 0.7.0/theme 0.7.1/icons 0.5.0 as dependencies not peers) vs our 0.11/0.9.1/0.7 → verify on install, likely needs upstream dep-bump + move-to-peerDeps first
+  note → data = brief-4.0 loadFullDataset() (dashboard = why load-all exists); real work = aggregation module reducing gameMeta into card shapes

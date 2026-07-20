@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ChessAnalysisLayout } from '@kolkrabbi/kol-chess'
 import * as chessData from '@kolkrabbi/kol-chess/data'
 import { Button, Textarea, usePopover, PopoverPanel } from '@kolkrabbi/kol-component'
@@ -59,20 +60,27 @@ const PasteGame = ({ onLoad }) => {
 }
 
 function App() {
+  const navigate = useNavigate()
   const [pastedGame, setPastedGame] = useState(null)
 
   return (
-    <div className="mx-auto max-w-[1232px] px-4 py-8 md:px-6 md:py-12">
+    <div className="relative mx-auto max-w-[1232px] px-4 py-8 md:px-6 md:py-12">
+      {/* rides the layout's top row (its Games button sits left) — toggle left
+          of the Stats nav, matching the Stats page header order */}
+      <div className="absolute right-4 top-11 flex items-center gap-2 md:right-6 md:top-15">
+        <ThemeToggle variant="icon" />
+        <Button variant="ghost" size="sm" iconLeft="stat-chart-a" onClick={() => navigate('/stats')}>
+          Stats
+        </Button>
+      </div>
       <ChessAnalysisLayout
         chessData={chessData}
         panel={<AnalysisPanel />}
         externalGame={pastedGame}
         overlayActions={
-          /* toggle alone on the left, Paste + Close paired right — the slot
-           * renders inside the overlay's full-width flex row, so the spacer
-           * does the justify-between */
+          /* Paste + Close paired right — the slot renders inside the overlay's
+           * full-width flex row, so the spacer pushes them right */
           <>
-            <ThemeToggle variant="icon" />
             <span className="flex-1" />
             <PasteGame onLoad={setPastedGame} />
           </>

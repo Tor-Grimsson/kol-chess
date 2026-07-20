@@ -14,13 +14,13 @@ Current project state + operational reference. Updated at the end of each signif
 For chronological detail see `session-log/`. For load-bearing decisions see `ARCHITECTURE.md`. For decision history / alternatives considered see `../HISTORY.md`. For speculative future work see `../llm-plan/`.
 
 **Last updated:**
+- 2026-07-20 — [theme toggle: boot stamp + body surface bg + toggle placement](session-log/2026-07-20-theme-toggle-body-bg-fixes.md)
+- 🏁 2026-07-16 — [MILESTONE: the scoped triple — game review · archive load-all · stats dashboard](session-log/2026-07-16-MILESTONE-review-loadall-stats.md)
+- 2026-07-15 — [scope: archive load-all (brief 4.0) + game review + stats dashboard](session-log/2026-07-15-scope-archive-loadall-review-stats.md)
 - 2026-07-15 — [0.4.1 bump, overlay header, engine icon fix](session-log/2026-07-15-0-4-1-header-icon-fixes.md)
 - 2026-07-15 — [brief 3.0 resolved upstream, bump to chess 0.4.0](session-log/2026-07-15-brief-3-consumer-bump.md)
-- 2026-07-15 — [engine toggle, icons round 2, brief 3.0](session-log/2026-07-15-engine-toggle-dead-features-brief-3.md)
-- 🏁 2026-07-15 — [MILESTONE: engine analysis arc closed](session-log/2026-07-15-MILESTONE-engine-analysis.md)
-- 2026-07-15 — [engine analysis + paste-and-analyse](session-log/2026-07-15-engine-analysis-paste-analyse.md)
 
-> DS-usage audit lives at `docs/DESIGN-SYSTEM-AUDIT.md`. Its ~9 defects are UPSTREAM in `@kolkrabbi/kol-chess` + `kol-theme` — fixes land in the **kol-ds** repo (previewed in its showcase), then republish + bump here. Do not fix them in this repo.
+> DS briefs live in `docs/DESIGN-SYSTEM-AUDIT*.md` (1.0 usage audit → 2.0 → 3.0 board-interactivity → **4.0 archive load-entire-set** — all resolved). Defects/asks are UPSTREAM in `@kolkrabbi/kol-chess` + `kol-theme` — fixes land in the **kol-ds** repo (previewed in its showcase), then republish + bump here. Do not fix them in this repo.
 
 ---
 
@@ -32,9 +32,9 @@ For chronological detail see `session-log/`. For load-bearing decisions see `ARC
 - Smoke tests — items #1–#3 passed; #4–#10 pending.
 -->
 
-- **One view** — home `<ChessAnalysisLayout>` (kol-chess 0.4.1) carries everything: **interactive board** (click-to-move, inline amber sidelines in notation, edit-mode placement with the full six-piece palette — brief 3.0 + follow-up, resolved upstream), playback, archive overlay, **engine panel via the `panel` slot**, paste flow (PGN or own chess.com URL) via `overlayActions` (toggle left · Paste+Close paired right), ThemeToggle. The `/analyse` fork is deleted.
-- **Engine analysis** — opt-in ("Engine" button in the panel, default off; worker exists only while on): Stockfish 18 WASM (single-threaded lite, d18, MultiPV 3), eval bar, SAN lines, move-classification badges, opening strip (3,803 bundled named lines + book-depth flag). Plan: `../llm-plan/02-engine-analysis.md` (arc complete; Game Review + stats dashboard parked in its "Later").
-- **Stack:** React 19 · Vite 8 · Tailwind CSS v4 · pnpm · **KOL DS** (`kol-theme@0.9.1` / `kol-component@0.11.0` / `kol-icons@0.7.0` / `kol-framework@0.5.0` / `kol-chess@0.4.1`) · `chess.js` · `stockfish`.
+- **Two views.** Home `<ChessAnalysisLayout>` (kol-chess 0.5.0): **interactive board** (click-to-move, amber sidelines, edit-mode palette), playback, **archive overlay with all/month scopes** (brief 4.0 — "All games" default, fetch on button press only), engine panel + **Game Review** in the `panel` slot, paste flow, ThemeToggle; Stats button top-right. **`/stats`** — the statistics dashboard over the full 27,200-game set (kol-dashboards cards/charts, all metrics computed from real data in `src/stats/aggregate.js`); Board button back.
+- **Engine analysis + review** — opt-in live engine (Stockfish 18 lite, d18, MultiPV 3, eval bar/lines/badges/opening strip) and one-click **Game Review** (sequential d14 pass, Lichess win%/accuracy math, brilliant→blunder tiers, per-side accuracy, navigable badged move list). Plan: `../llm-plan/02-engine-analysis.md` (fully executed).
+- **Stack:** React 19 · Vite 8 · Tailwind CSS v4 · pnpm · **KOL DS** (`kol-theme@0.11.1` / `kol-component@0.11.0` / `kol-icons@0.7.0` / `kol-framework@0.5.0` / `kol-chess@0.5.0` / `kol-dashboards@0.2.0`) · `chess.js` · `stockfish`.
 - **Data:** B2-CDN adapter (`@kolkrabbi/kol-chess/data`) — 27,200 chess.com games, progressive month load.
 
 ---
@@ -46,10 +46,11 @@ For chronological detail see `session-log/`. For load-bearing decisions see `ARC
 
 ## What's pending
 
-Nothing open — the engine-analysis arc is 🏁 closed. Future work is parked: stats dashboard + masters-novelty token in `../llm-plan/02-engine-analysis.md`, app shell in `../llm-plan/01-parking-lot.md`.
+**Nothing open — 🏁 all scoped arcs closed (2026-07-16, capstone above).** Engine analysis, Game Review, archive load-all (brief 4.0), and the stats dashboard are all shipped and consumer-verified on published packages (chess 0.5.0 · theme 0.11.1 · dashboards 0.2.0). Speculative-only items live in plan files: masters-novelty token (`../llm-plan/02-engine-analysis.md` Phase 3, needs the user's lichess token) · app shell (`../llm-plan/01-parking-lot.md`, mount when a third view justifies it).
 
 ## Active known issues
 
+- **Theme is consumer-driven (2026-07-20).** The DS themes components but NOT the page canvas — `src/index.css` sets `body { background: var(--kol-surface-primary) }` (don't drop it or the page goes white in dark). `data-theme` is stamped pre-paint by a boot script in `index.html` (reads `localStorage['kol-theme']`); the toggle lives at the App/StatsPage top-right (not the overlay). **Upstream defect to file:** kol-framework `getInitialTheme` still seeds React state from `matchMedia` despite theme 0.11.1 dropping OS-follow — masked here by the boot script's explicit attr.
 - **lichess explorer API is 401/auth-gated** (since ≤2026-07-15) — novelty flag uses bundled-book depth instead; token/proxy upgrade parked in `../llm-plan/02-engine-analysis.md` Phase 3.
 - **pnpm's release-age gate vs same-day KOL publishes** — `pnpm-workspace.yaml` now excludes the whole `'@kolkrabbi/*'` scope from `minimumReleaseAge` (the per-version excludes pnpm auto-adds re-gate every new publish). Still verify against the registry directly (`npm view <pkg> version`), not `pnpm outdated`. *(Brief 3.0 board interactivity + the `atomic` icon miss are both RESOLVED — console is fully clean.)*
 - **ALL KOL packages must stay in `optimizeDeps.exclude`** (chess/icons/component/framework — raw source; `import.meta.glob` dies under esbuild prebundle, and a prebundled *importer* of kol-icons can carry a broken copy after any dep-graph change). New KOL dep → add it to the exclude list in the same breath. kol-chess + kol-component src stay in `@source`. Icons vanish anyway → `rm -rf node_modules/.vite` + restart dev.
@@ -69,13 +70,14 @@ DS fonts now live in `public/fonts/` (`jetbrains-mono/`, `Right-Grotesk/`, `Righ
 
 | file | role | hot edit points |
 |---|---|---|
-| `src/App.jsx` | the one view: layout + `panel` + paste popover + ThemeToggle | paste UX, overlayActions |
-| `src/engine/AnalysisPanel.jsx` | eval bar / lines / badges / opening strip — renders in the `panel` slot | classification thresholds, strip layout |
-| `src/engine/` | `uci.js` pure parse/classify · `useEngine.js` worker lifecycle | depth/multipv constants |
+| `src/App.jsx` | board view: layout + `panel` + paste popover + ThemeToggle + Stats nav | paste UX, overlayActions |
+| `src/engine/AnalysisPanel.jsx` | eval bar / lines / badges / opening strip + mounts `<GameReview />` | classification thresholds, strip layout |
+| `src/engine/` | `uci.js` pure parse/classify + review math · `useEngine.js` worker lifecycle · `reviewRunner.js` d14 pass · `ReviewPanel.jsx` review UI | depth/multipv constants, tier thresholds |
+| `src/stats/` | `aggregate.js` pure metrics over gameMeta · `StatsPage.jsx` the `/stats` dashboard | metric defs, card composition, opening-family heuristic |
 | `src/openings/` | bundled TSV + EPD index + book-depth logic | swap TSV on lichess update |
 | `src/lib/resolveGame.js` | PGN/URL → externalGame (archive lookup) | chess.com URL shapes |
-| `src/index.css` | Tailwind + theme import + `@source` chess & component pkgs | keep `@source` lines or classes vanish |
-| `vite.config.js` | `optimizeDeps.exclude: [kol-chess, kol-icons]` | don't drop — source-only pkgs |
+| `src/index.css` | Tailwind + theme import + `@source` chess/component/dashboards pkgs | keep `@source` lines or classes vanish |
+| `vite.config.js` | `optimizeDeps.exclude` — ALL 5 kol packages | don't drop — source-only pkgs |
 | `public/engine/` | stockfish-18-lite-single js+wasm | re-copy from `node_modules/stockfish/bin` on bump |
 
 ---
