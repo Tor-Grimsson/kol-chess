@@ -9,7 +9,8 @@ import { ThemeToggle } from '@kolkrabbi/kol-framework'
  * Owns the board's height budget: bar h-12 (48) + page gutters (96) → 150. */
 
 const NAV = [
-  { to: '/analysis', icon: 'grid', label: 'Games' },
+  { to: '/analysis', icon: 'grid', label: 'Board' },
+  { to: '/database', icon: 'terminal', label: 'Database' },
   { to: '/stats', icon: 'stat-chart-a', label: 'Statistics' },
 ]
 
@@ -60,12 +61,12 @@ export default function Shell() {
   return (
     <div className="[--chess-stage-reserve:150px]">
       <nav className="sticky top-0 z-40 flex h-12 items-center justify-between border-b border-fg-12 bg-surface-primary px-4 md:px-6">
-        <Tooltip label="Home">
-          <NavLink to="/" end className={iconLink} aria-label="Home">
-            <Icon name="chess-pawn" size={BAR.glyph} />
-          </NavLink>
-        </Tooltip>
         <div className="flex items-center gap-1">
+          <Tooltip label="Home">
+            <NavLink to="/" end className={iconLink} aria-label="Home">
+              <Icon name="chess-pawn" size={BAR.glyph} />
+            </NavLink>
+          </Tooltip>
           <div className="hidden items-center gap-1 md:flex">
             {NAV.map(({ to, icon, label }) => (
               <Tooltip key={to} label={label}>
@@ -76,8 +77,8 @@ export default function Shell() {
             ))}
           </div>
           <MobileMenu />
-          <ThemeToggle variant="icon" />
         </div>
+        <ThemeToggle variant="icon" />
       </nav>
       <Outlet />
     </div>

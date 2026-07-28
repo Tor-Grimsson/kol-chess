@@ -10,12 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@duckdb/duckdb-wasm": "1.33.1-dev57.0",
     "@kolkrabbi/kol-chess": "^0.5.1",
     "@kolkrabbi/kol-component": "^0.12.0",
     "@kolkrabbi/kol-dashboards": "^0.2.0",
     "@kolkrabbi/kol-framework": "^0.5.4",
     "@kolkrabbi/kol-icons": "^0.7.0",
-    "@kolkrabbi/kol-theme": "^0.11.6",
+    "@kolkrabbi/kol-theme": "^0.11.7",
     "@tailwindcss/vite": "^4.3.2",
     "chess.js": "1.4.0",
     "react": "^19.2.7",

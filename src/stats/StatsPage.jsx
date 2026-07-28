@@ -66,7 +66,7 @@ const StatsPage = () => {
   const stats = useMemo(() => (games ? computeStats(games) : null), [games])
 
   return (
-    <div className="mx-auto max-w-[1232px] px-4 py-8 md:px-6 md:py-12">
+    <div className="mx-auto max-w-[1800px] px-4 py-8 md:px-6 md:py-12">
       <div className="mb-6 flex items-center gap-3">
         <h1 className="kol-sans-heading-05">Statistics</h1>
         {stats && (
