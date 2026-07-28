@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ChessAnalysisLayout } from '@kolkrabbi/kol-chess'
+import { ChessControlsProvider, GameArchiveTable } from '@kolkrabbi/kol-chess'
 import * as chessData from '@kolkrabbi/kol-chess/data'
-import { Button, Textarea, usePopover, PopoverPanel } from '@kolkrabbi/kol-component'
-import { ThemeToggle } from '@kolkrabbi/kol-framework'
-import AnalysisPanel from './engine/AnalysisPanel'
+import { Button, FullscreenOverlay, Textarea, usePopover, PopoverPanel } from '@kolkrabbi/kol-component'
+import { EngineProvider } from './engine/EngineContext'
+import { EngineControls, EngineReadout } from './engine/AnalysisPanel'
+import Stage from './board/Stage'
 import { resolveGameInput } from './lib/resolveGame'
 
 const PasteGame = ({ onLoad }) => {
@@ -59,33 +59,50 @@ const PasteGame = ({ onLoad }) => {
   )
 }
 
+/* The analysis page — STRUCTURE OWNED HERE (2026-07-28 restructure): composed
+ * from kol-chess elements. Row 1 is the shell navbar; row 2 is the page
+ * toolbar (Games · engine controls); row 3 the stage. The archive overlay and
+ * game state live here, not upstream. Reserve = shell 150 + toolbar row 40. */
 function App() {
-  const navigate = useNavigate()
-  const [pastedGame, setPastedGame] = useState(null)
+  const [loadedGame, setLoadedGame] = useState(null)
+  const [archiveOpen, setArchiveOpen] = useState(false)
 
   return (
-    <div className="relative mx-auto max-w-[1232px] px-4 py-8 md:px-6 md:py-12">
-      {/* rides the layout's top row (its Games button sits left) — toggle left
-          of the Stats nav, matching the Stats page header order */}
-      <div className="absolute right-4 top-11 flex items-center gap-2 md:right-6 md:top-15">
-        <ThemeToggle variant="icon" />
-        <Button variant="ghost" size="sm" iconLeft="stat-chart-a" onClick={() => navigate('/stats')}>
-          Stats
-        </Button>
-      </div>
-      <ChessAnalysisLayout
-        chessData={chessData}
-        panel={<AnalysisPanel />}
-        externalGame={pastedGame}
-        overlayActions={
-          /* Paste + Close paired right — the slot renders inside the overlay's
-           * full-width flex row, so the spacer pushes them right */
-          <>
+    <div className="relative px-4 py-8 md:px-6 md:py-12 [--chess-stage-reserve:190px]">
+      <ChessControlsProvider externalGame={loadedGame} chessData={chessData}>
+        <EngineProvider>
+          <div className="mb-4 flex items-center gap-3">
+            <Button variant="ghost" size="sm" iconLeft="grid" onClick={() => setArchiveOpen(true)}>
+              Games
+            </Button>
             <span className="flex-1" />
-            <PasteGame onLoad={setPastedGame} />
-          </>
-        }
-      />
+            <EngineControls />
+          </div>
+          {/* stacked (<lg) needs a real height frame for its internal scroll —
+              upstream's h-dvh wrapper, minus shell bar + gutters + toolbar */}
+          <div className="h-[calc(100dvh-184px)] min-h-0 lg:h-auto">
+            <Stage panel={<EngineReadout />} />
+          </div>
+        </EngineProvider>
+      </ChessControlsProvider>
+
+      <FullscreenOverlay open={archiveOpen} onClose={() => setArchiveOpen(false)} closeButton={false}>
+        <div className="max-h-[88dvh] w-[min(1100px,calc(100vw-48px))] overflow-y-auto rounded bg-surface-primary p-4 md:p-6">
+          <div className="-mr-2 -mt-1 mb-2 flex items-center justify-end gap-2">
+            <PasteGame onLoad={setLoadedGame} />
+            <Button variant="ghost" size="sm" iconLeft="x" onClick={() => setArchiveOpen(false)}>
+              Close
+            </Button>
+          </div>
+          <GameArchiveTable
+            chessData={chessData}
+            onGameLoad={(game) => {
+              setLoadedGame(game)
+              setArchiveOpen(false)
+            }}
+          />
+        </div>
+      </FullscreenOverlay>
     </div>
   )
 }

@@ -4,13 +4,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import StatsPage from './stats/StatsPage.jsx'
+import LandingPage from './LandingPage.jsx'
+import Shell from './Shell.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route index element={<App />} />
-        <Route path="stats" element={<StatsPage />} />
+        <Route element={<Shell />}>
+          <Route index element={<LandingPage />} />
+          <Route path="analysis" element={<App />} />
+          <Route path="stats" element={<StatsPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </StrictMode>,

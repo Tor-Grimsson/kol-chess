@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useChessControls } from '@kolkrabbi/kol-chess'
 import { Badge, Button } from '@kolkrabbi/kol-component'
-import { useEngine } from './useEngine'
+import { useEngineState } from './EngineContext'
 import GameReview from './ReviewPanel'
-import { toWhiteCp, uciToSan, classifyMove } from './uci'
+import { toWhiteCp, uciToSan } from './uci'
 import { loadOpeningIndex } from '../openings/openings'
 import { deepestOpening, epdOf } from '../openings/openingBook'
+
+/* Split (2026-07-28 restructure): EngineControls renders in the page toolbar,
+ * EngineReadout in the strip above the board — same engine, one EngineProvider
+ * (see EngineContext.jsx). This file keeps the presentational halves. */
 
 const CLASSIFICATION_VARIANT = { blunder: 'critical', mistake: 'warning', inaccuracy: 'info' }
 
@@ -52,67 +56,49 @@ const OpeningStrip = () => {
   )
 }
 
-// Renders inside ChessControlsProvider via ChessAnalysisLayout's `panel` slot.
-// Engine is opt-in per session — the worker only exists while toggled on.
-const AnalysisPanel = () => {
-  const { snapshots, moveIndex } = useChessControls()
-  const [engineOn, setEngineOn] = useState(false)
-  const snapshot = snapshots[moveIndex]
-  const fen = snapshot?.fen ?? null
-  const analysis = useEngine(fen, { enabled: engineOn })
-  const [evalByFen, setEvalByFen] = useState({})
+/* The toolbar half: engine toggle + live eval strip (or the opening strip
+ * while the engine is off). Bounded widths — it shares a row with page nav. */
+export const EngineControls = () => {
+  const { engineOn, setEngineOn, snapshot, sideToMove, live, best, classification, barPct } = useEngineState()
 
-  const sideToMove = fen?.split(' ')[1] ?? 'w'
-  const live = analysis && analysis.fen === fen ? analysis : null
-  const best = live?.lines?.[0]
-  const whiteCp = best ? toWhiteCp(best, sideToMove) : null
+  return (
+    <div className="flex min-w-0 items-center gap-3">
+      {!engineOn && <OpeningStrip />}
+      {engineOn && (
+        <>
+          {classification && snapshot?.move?.san && (
+            <Badge variant={CLASSIFICATION_VARIANT[classification]} size="sm">
+              {snapshot.move.san} {classification}
+            </Badge>
+          )}
+          <span className="kol-mono-14 w-12 text-right">{best ? formatEval(best, sideToMove) : '…'}</span>
+          <div className="h-2 w-40 overflow-hidden rounded-sm border border-fg-08 bg-neutral-900">
+            <div className="h-full bg-white transition-[width]" style={{ width: `${barPct}%` }} />
+          </div>
+          <span className="kol-mono-12 text-fg-secondary w-10">{live ? `d${live.depth}` : ''}</span>
+        </>
+      )}
+      <Button
+        variant="ghost"
+        size="sm"
+        iconLeft="atomic-atom"
+        selected={engineOn}
+        onClick={() => setEngineOn((on) => !on)}
+        aria-label="Toggle engine analysis"
+      >
+        Engine
+      </Button>
+    </div>
+  )
+}
 
-  useEffect(() => {
-    if (live && live.depth >= 12 && whiteCp !== null) {
-      setEvalByFen((prev) => (prev[fen] === whiteCp ? prev : { ...prev, [fen]: whiteCp }))
-    }
-  }, [live, whiteCp, fen])
-
-  const prevFen = moveIndex > 0 ? snapshots[moveIndex - 1]?.fen : null
-  const classification =
-    prevFen && evalByFen[prevFen] !== undefined && evalByFen[fen] !== undefined
-      ? classifyMove(evalByFen[prevFen], evalByFen[fen], moveIndex % 2 === 1)
-      : null
-
-  const barPct =
-    whiteCp === null
-      ? 50
-      : Math.min(97, Math.max(3, 50 + 50 * (2 / (1 + Math.exp(-whiteCp / 400)) - 1)))
+/* The board-strip half: engine lines + opening strip while live, and the
+ * Game Review block. Renders in the stage's panel position. */
+export const EngineReadout = () => {
+  const { engineOn, fen, sideToMove, live } = useEngineState()
 
   return (
     <div className="flex flex-shrink-0 flex-col gap-2">
-      <div className="flex items-center gap-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          iconLeft="atomic-atom"
-          selected={engineOn}
-          onClick={() => setEngineOn((on) => !on)}
-          aria-label="Toggle engine analysis"
-        >
-          Engine
-        </Button>
-        {engineOn && (
-          <>
-            <span className="kol-mono-14 w-12 text-right">{best ? formatEval(best, sideToMove) : '…'}</span>
-            <div className="h-2 flex-1 overflow-hidden rounded-sm border border-fg-08 bg-neutral-900">
-              <div className="h-full bg-white transition-[width]" style={{ width: `${barPct}%` }} />
-            </div>
-            <span className="kol-mono-12 text-fg-secondary w-10">{live ? `d${live.depth}` : ''}</span>
-            {classification && snapshot?.move?.san && (
-              <Badge variant={CLASSIFICATION_VARIANT[classification]} size="sm">
-                {snapshot.move.san} {classification}
-              </Badge>
-            )}
-          </>
-        )}
-        {!engineOn && <OpeningStrip />}
-      </div>
       {engineOn && live && (
         <div className="flex flex-col gap-0.5">
           {live.lines.map((line) => (
@@ -128,5 +114,3 @@ const AnalysisPanel = () => {
     </div>
   )
 }
-
-export default AnalysisPanel

@@ -1,0 +1,102 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - link "Home" [ref=e6] [cursor=pointer]:
+      - /url: /
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - link "Games" [ref=e11] [cursor=pointer]:
+          - /url: /analysis
+        - link "Statistics" [ref=e14] [cursor=pointer]:
+          - /url: /stats
+      - button "Switch to dark mode" [ref=e16] [cursor=pointer]
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - button [ref=e23] [cursor=pointer]
+      - generic [ref=e26]:
+        - generic [ref=e27]: start position
+        - button "Toggle engine analysis" [ref=e28] [cursor=pointer]:
+          - generic [ref=e29]: Engine
+    - generic [ref=e32]:
+      - button "Run game review" [ref=e37] [cursor=pointer]: Review
+      - generic [ref=e41]:
+        - generic [ref=e42] [cursor=pointer]: "8"
+        - generic [ref=e133] [cursor=pointer]: "7"
+        - generic [ref=e181] [cursor=pointer]: "6"
+        - generic [ref=e189] [cursor=pointer]: "5"
+        - generic [ref=e197] [cursor=pointer]: "4"
+        - generic [ref=e205] [cursor=pointer]: "3"
+        - generic [ref=e213] [cursor=pointer]: "2"
+        - generic [ref=e269] [cursor=pointer]:
+          - generic:
+            - generic:
+              - generic: "1"
+              - generic: A
+        - generic [ref=e281] [cursor=pointer]: B
+        - generic [ref=e290] [cursor=pointer]: C
+        - generic [ref=e303] [cursor=pointer]: D
+        - generic [ref=e323] [cursor=pointer]: E
+        - generic [ref=e335] [cursor=pointer]: F
+        - generic [ref=e348] [cursor=pointer]: G
+        - generic [ref=e357] [cursor=pointer]: H
+      - generic [ref=e370]:
+        - generic [ref=e371]:
+          - generic [ref=e372]:
+            - generic [ref=e373]: SETUP POSITION
+            - generic [ref=e375]:
+              - button "Search games" [ref=e376] [cursor=pointer]
+              - button "Flip board" [ref=e378] [cursor=pointer]
+              - button "Clear board" [ref=e380] [cursor=pointer]
+              - button "Copy PGN" [ref=e382] [cursor=pointer]
+              - button "Toggle edit mode" [ref=e384] [cursor=pointer]
+          - generic [ref=e386]:
+            - generic [ref=e387]: PIECE SET
+            - combobox [ref=e389] [cursor=pointer]:
+              - generic [ref=e390]: Default
+          - generic [ref=e392]:
+            - generic [ref=e393]: BOARD THEME
+            - combobox [ref=e395] [cursor=pointer]:
+              - generic [ref=e396]: Green & White
+        - generic [ref=e526]:
+          - generic [ref=e527]:
+            - combobox [ref=e530] [cursor=pointer]:
+              - generic [ref=e531]: Biskupstunga vs DARTH-ZANE
+            - button "Game info" [ref=e535] [cursor=pointer]
+          - generic [ref=e539]: MATERIAL
+          - generic [ref=e545]:
+            - generic [ref=e546]: WHITE
+            - generic [ref=e550]: BLACK
+          - generic:
+            - generic [ref=e554]: NOTATION
+            - generic [ref=e557]:
+              - generic [ref=e558]: "1."
+              - button "e4" [ref=e559] [cursor=pointer]
+              - button "d5" [ref=e560] [cursor=pointer]
+              - generic [ref=e561]: "2."
+              - button "exd5" [ref=e562] [cursor=pointer]
+              - button "c5" [ref=e563] [cursor=pointer]
+              - generic [ref=e564]: "3."
+              - button "Nc3" [ref=e565] [cursor=pointer]
+              - button "c4" [ref=e566] [cursor=pointer]
+              - generic [ref=e567]: "4."
+              - button "d4" [ref=e568] [cursor=pointer]
+              - button "b6" [ref=e569] [cursor=pointer]
+              - generic [ref=e570]: "5."
+              - button "Bxc4" [ref=e571] [cursor=pointer]
+              - button "a5" [ref=e572] [cursor=pointer]
+              - generic [ref=e573]: "6."
+              - button "Bb5+" [ref=e574] [cursor=pointer]
+              - button "Qd7" [ref=e575] [cursor=pointer]
+              - generic [ref=e576]: "7."
+              - button "Bxd7+" [ref=e577] [cursor=pointer]
+              - button "Kxd7" [ref=e578] [cursor=pointer]
+              - generic [ref=e579]: "8."
+              - button "Qg4+" [ref=e580] [cursor=pointer]
+              - button "Kd8" [ref=e581] [cursor=pointer]
+          - generic [ref=e583]:
+            - generic [ref=e584]: MOVE 0/8
+            - generic [ref=e586]:
+              - button "Jump to start" [ref=e587] [cursor=pointer]
+              - button "Step backward" [ref=e589] [cursor=pointer]
+              - button "Play moves" [ref=e591] [cursor=pointer]
+              - button "Step forward" [ref=e593] [cursor=pointer]
+              - button "Jump to end" [ref=e595] [cursor=pointer]

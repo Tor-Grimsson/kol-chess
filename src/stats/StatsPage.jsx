@@ -1,7 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Button } from '@kolkrabbi/kol-component'
-import { ThemeToggle } from '@kolkrabbi/kol-framework'
 import { loadFullDataset } from '@kolkrabbi/kol-chess/data'
 import {
   DashboardGrid,
@@ -49,7 +46,6 @@ const OPPONENT_COLUMNS = [
 ]
 
 const StatsPage = () => {
-  const navigate = useNavigate()
   const [games, setGames] = useState(null)
   const [error, setError] = useState(null)
 
@@ -70,24 +66,14 @@ const StatsPage = () => {
   const stats = useMemo(() => (games ? computeStats(games) : null), [games])
 
   return (
-    <div className="mx-auto max-w-[1232px] px-4 pt-11 pb-8 md:px-6 md:pt-15 md:pb-12">
-      {/* toggle stays in-flow so its height is reserved and the mb-6 gives a real
-          gap below; pt matches the board toggle's top offset (top-11/top-15) */}
-      <div className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <h1 className="kol-sans-heading-05">Statistics</h1>
-          {stats && (
-            <span className="kol-mono-12 text-fg-secondary">
-              {monthLabel(stats.span.from)} — {monthLabel(stats.span.to)} · {stats.totals.rated.toLocaleString()} rated
-            </span>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          <ThemeToggle variant="icon" />
-          <Button variant="ghost" size="sm" iconLeft="grid" onClick={() => navigate('/')}>
-            Board
-          </Button>
-        </div>
+    <div className="mx-auto max-w-[1232px] px-4 py-8 md:px-6 md:py-12">
+      <div className="mb-6 flex items-center gap-3">
+        <h1 className="kol-sans-heading-05">Statistics</h1>
+        {stats && (
+          <span className="kol-mono-12 text-fg-secondary">
+            {monthLabel(stats.span.from)} — {monthLabel(stats.span.to)} · {stats.totals.rated.toLocaleString()} rated
+          </span>
+        )}
       </div>
 
       {error && <p className="kol-mono-14 text-fg-secondary">{error}</p>}
