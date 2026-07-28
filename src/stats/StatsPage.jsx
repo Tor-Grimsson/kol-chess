@@ -14,6 +14,7 @@ import {
   formatPercent
 } from '@kolkrabbi/kol-dashboards'
 import { computeStats } from './aggregate'
+import PageHeader from '../PageHeader'
 
 const GREEN = 'var(--kol-palette-green)'
 const RED = 'var(--kol-palette-red)'
@@ -67,14 +68,16 @@ const StatsPage = () => {
 
   return (
     <div className="mx-auto max-w-[1800px] px-4 py-8 md:px-6 md:py-12">
-      <div className="mb-6 flex items-center gap-3">
-        <h1 className="kol-sans-heading-05">Statistics</h1>
-        {stats && (
-          <span className="kol-mono-12 text-fg-secondary">
-            {monthLabel(stats.span.from)} — {monthLabel(stats.span.to)} · {stats.totals.rated.toLocaleString()} rated
-          </span>
-        )}
-      </div>
+      <PageHeader
+        title="Statistics"
+        meta={
+          stats && (
+            <span className="kol-mono-12 text-fg-secondary">
+              {monthLabel(stats.span.from)} — {monthLabel(stats.span.to)} · {stats.totals.rated.toLocaleString()} rated
+            </span>
+          )
+        }
+      />
 
       {error && <p className="kol-mono-14 text-fg-secondary">{error}</p>}
       {!error && !stats && <p className="kol-mono-14 text-fg-secondary">Loading the full archive…</p>}

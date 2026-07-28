@@ -14,11 +14,11 @@ Current project state + operational reference. Updated at the end of each signif
 For chronological detail see `session-log/`. For load-bearing decisions see `ARCHITECTURE.md`. For decision history / alternatives considered see `../HISTORY.md`. For speculative future work see `../llm-plan/`.
 
 **Last updated:**
+- 🏁 2026-07-28 — [MILESTONE: UI consistency sweep — uniform buttons, flush tabs, justify-between stage, app-composed rail, vault docs](session-log/2026-07-28-MILESTONE-ui-consistency-sweep.md)
 - 2026-07-20 — [theme toggle: boot stamp + body surface bg + toggle placement](session-log/2026-07-20-theme-toggle-body-bg-fixes.md)
 - 🏁 2026-07-16 — [MILESTONE: the scoped triple — game review · archive load-all · stats dashboard](session-log/2026-07-16-MILESTONE-review-loadall-stats.md)
 - 2026-07-15 — [scope: archive load-all (brief 4.0) + game review + stats dashboard](session-log/2026-07-15-scope-archive-loadall-review-stats.md)
 - 2026-07-15 — [0.4.1 bump, overlay header, engine icon fix](session-log/2026-07-15-0-4-1-header-icon-fixes.md)
-- 2026-07-15 — [brief 3.0 resolved upstream, bump to chess 0.4.0](session-log/2026-07-15-brief-3-consumer-bump.md)
 
 > DS briefs live in `docs/DESIGN-SYSTEM-AUDIT*.md` (1.0 usage audit → 2.0 → 3.0 board-interactivity → **4.0 archive load-entire-set** — all resolved). Defects/asks are UPSTREAM in `@kolkrabbi/kol-chess` + `kol-theme` — fixes land in the **kol-ds** repo (previewed in its showcase), then republish + bump here. Do not fix them in this repo.
 
@@ -32,9 +32,9 @@ For chronological detail see `session-log/`. For load-bearing decisions see `ARC
 - Smoke tests — items #1–#3 passed; #4–#10 pending.
 -->
 
-- **Two views.** Home `<ChessAnalysisLayout>` (kol-chess 0.5.0): **interactive board** (click-to-move, amber sidelines, edit-mode palette), playback, **archive overlay with all/month scopes** (brief 4.0 — "All games" default, fetch on button press only), engine panel + **Game Review** in the `panel` slot, paste flow, ThemeToggle; Stats button top-right. **`/stats`** — the statistics dashboard over the full 27,200-game set (kol-dashboards cards/charts, all metrics computed from real data in `src/stats/aggregate.js`); Board button back.
+- **Four pages in one Shell** (2026-07-28 restructure + sweep): `/` landing (pipeline story, uniform button row) · `/analysis` board — app-composed Stage/Rail from kol-chess 0.5.2 elements, PageHeader tabs Controls·Engine·Review as direct intent (tab = activation, no inner buttons), interactive board, Games overlay, paste flow · `/database` Query(DuckDB-WASM)/Browse/Learn · `/stats` dashboard over the full 27,200-game set (`src/stats/aggregate.js`). One PageHeader anatomy everywhere; ThemeToggle top-right.
 - **Engine analysis + review** — opt-in live engine (Stockfish 18 lite, d18, MultiPV 3, eval bar/lines/badges/opening strip) and one-click **Game Review** (sequential d14 pass, Lichess win%/accuracy math, brilliant→blunder tiers, per-side accuracy, navigable badged move list). Plan: `../llm-plan/02-engine-analysis.md` (fully executed).
-- **Stack:** React 19 · Vite 8 · Tailwind CSS v4 · pnpm · **KOL DS** (`kol-theme@0.11.1` / `kol-component@0.11.0` / `kol-icons@0.7.0` / `kol-framework@0.5.0` / `kol-chess@0.5.0` / `kol-dashboards@0.2.0`) · `chess.js` · `stockfish`.
+- **Stack:** React 19 · Vite 8 · Tailwind CSS v4 · pnpm · **KOL DS** (`kol-theme@0.11.7` / `kol-component@0.12.2` / `kol-icons@0.7.1` / `kol-framework@0.5.4` / `kol-chess@0.5.2` / `kol-dashboards@0.2.0`) · `chess.js` · `stockfish` · `@duckdb/duckdb-wasm` · CodeMirror (sql).
 - **Data:** B2-CDN adapter (`@kolkrabbi/kol-chess/data`) — 27,200 chess.com games, progressive month load.
 
 ---
@@ -46,7 +46,7 @@ For chronological detail see `session-log/`. For load-bearing decisions see `ARC
 
 ## What's pending
 
-**Nothing open — 🏁 all scoped arcs closed (2026-07-16, capstone above).** Engine analysis, Game Review, archive load-all (brief 4.0), and the stats dashboard are all shipped and consumer-verified on published packages (chess 0.5.0 · theme 0.11.1 · dashboards 0.2.0). Speculative-only items live in plan files: masters-novelty token (`../llm-plan/02-engine-analysis.md` Phase 3, needs the user's lichess token) · app shell (`../llm-plan/01-parking-lot.md`, mount when a third view justifies it).
+**Nothing open — 🏁 all scoped arcs closed (2026-07-28 UI-consistency capstone above).** The sweep (uniform buttons · flush tabs · justify-between stage · app-composed rail with direct-intent engine/review · vault docs) is shipped and browser-verified on published packages (chess 0.5.2 · component 0.12.2). Speculative-only items live in plan files: masters-novelty token (`../llm-plan/02-engine-analysis.md` Phase 3, needs the user's lichess token) · app shell (`../llm-plan/01-parking-lot.md` — partially superseded: Shell exists since the restructure).
 
 ## Active known issues
 
@@ -71,7 +71,8 @@ DS fonts now live in `public/fonts/` (`jetbrains-mono/`, `Right-Grotesk/`, `Righ
 | file | role | hot edit points |
 |---|---|---|
 | `src/App.jsx` | board view: layout + `panel` + paste popover + ThemeToggle + Stats nav | paste UX, overlayActions |
-| `src/engine/AnalysisPanel.jsx` | eval bar / lines / badges / opening strip + mounts `<GameReview />` | classification thresholds, strip layout |
+| `src/board/` | `Stage.jsx` board-left/rail-right geometry · `Rail.jsx` composes the rail from kol-chess 0.5.2 elements (Mock retired), swap zone controls⟷engine⟷review | rail clamp + stage pr, pane wiring |
+| `src/engine/AnalysisPanel.jsx` | `EngineTab` — eval bar / lines / badges / opening strip; tab = intent (no toggle) | classification thresholds, strip layout |
 | `src/engine/` | `uci.js` pure parse/classify + review math · `useEngine.js` worker lifecycle · `reviewRunner.js` d14 pass · `ReviewPanel.jsx` review UI | depth/multipv constants, tier thresholds |
 | `src/stats/` | `aggregate.js` pure metrics over gameMeta · `StatsPage.jsx` the `/stats` dashboard | metric defs, card composition, opening-family heuristic |
 | `src/openings/` | bundled TSV + EPD index + book-depth logic | swap TSV on lichess update |

@@ -73,6 +73,7 @@ export const runQuery = async (sql) => {
   const table = await conn.query(sql)
   const ms = Math.round(performance.now() - t0)
   const columns = table.schema.fields.map((f) => f.name)
+  const types = table.schema.fields.map((f) => String(f.type))
   const rows = table.toArray().map((row) => row.toJSON())
-  return { columns, rows, ms }
+  return { columns, types, rows, ms }
 }

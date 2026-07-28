@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useChessControls } from '@kolkrabbi/kol-chess'
-import { Badge, Button } from '@kolkrabbi/kol-component'
+import { Badge } from '@kolkrabbi/kol-component'
 import { useEngineState } from './EngineContext'
 import { toWhiteCp, uciToSan } from './uci'
 import { loadOpeningIndex } from '../openings/openings'
 import { deepestOpening, epdOf } from '../openings/openingBook'
 
 /* EngineTab (2026-07-28, rail-tabs fix): the whole engine surface lives in
- * the rail's Engine tab — toggle, eval bar, lines, opening strip, stacked
- * vertically. State comes from EngineProvider (EngineContext.jsx) so it
- * survives tab switches. Nothing engine-related floats over the board. */
+ * the rail's Engine tab — eval bar, lines, opening strip, stacked vertically.
+ * Selecting the tab IS the intent: `active` turns the engine on (no inner
+ * toggle — direct-intent law); once on it stays on so the readout survives
+ * tab switches. State comes from EngineProvider (EngineContext.jsx).
+ * No own padding — the rail's column spine provides it. */
 
 const CLASSIFICATION_VARIANT = { blunder: 'critical', mistake: 'warning', inaccuracy: 'info' }
 
@@ -56,22 +58,17 @@ const OpeningStrip = () => {
   )
 }
 
-export const EngineTab = () => {
+export const EngineTab = ({ active = false }) => {
   const { engineOn, setEngineOn, snapshot, fen, sideToMove, live, best, classification, barPct } = useEngineState()
 
+  useEffect(() => {
+    if (active) setEngineOn(true)
+  }, [active, setEngineOn])
+
   return (
-    <div className="flex flex-col gap-3 px-3 py-2">
+    <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between gap-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          iconLeft="atomic-atom"
-          selected={engineOn}
-          onClick={() => setEngineOn((on) => !on)}
-          aria-label="Toggle engine analysis"
-        >
-          Engine
-        </Button>
+        <span className="kol-helper-12 text-fg-80">ENGINE</span>
         {engineOn && (
           <div className="flex items-center gap-3">
             <span className="kol-mono-14 text-right">{best ? formatEval(best, sideToMove) : '…'}</span>

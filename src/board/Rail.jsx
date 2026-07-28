@@ -1,42 +1,105 @@
 import { useState } from 'react'
-import { AlternativeControlsMock } from '@kolkrabbi/kol-chess'
-import { Button, TabsRow } from '@kolkrabbi/kol-component'
+import {
+  SetupPanel,
+  PiecePalette,
+  GamePicker,
+  MaterialSummary,
+  NotationPanel,
+  PlaybackControls,
+  useChessControls,
+  useChessKeyboardShortcuts,
+} from '@kolkrabbi/kol-chess'
+import { Button, Divider } from '@kolkrabbi/kol-component'
 import { EngineTab } from '../engine/AnalysisPanel'
 import GameReview from '../engine/ReviewPanel'
 
-/* The right rail, tabbed: Controls · Engine · Review. Everything that used to
- * float above the board lives here now — the board can never be pushed.
- * All three tab bodies stay MOUNTED (hidden, not unmounted) so a finished
- * review and live engine readout survive tab switches. */
-
-const TABS = [
-  { id: 'controls', label: 'Controls' },
-  { id: 'engine', label: 'Engine' },
-  { id: 'review', label: 'Review' },
-]
+/* The right rail — COMPOSED HERE from kol-chess elements (0.5.2 exports;
+ * AlternativeControlsMock retired 2026-07-28). The Controls · Engine · Review
+ * tabs live in the PageHeader and drive `tab` from above.
+ *
+ * Constant frame: SETUP + palette + game picker + playback — always there.
+ * Swap zone: the material→notation region swaps for engine or review output.
+ * All three panes stay MOUNTED (hidden, not unmounted) so a finished review
+ * and live engine readout survive tab switches. One padding system: the main
+ * column's p-3/gap-4 spine — panes bring no padding of their own. */
 
 const paneCls = (active, extra = '') =>
   `${active ? 'flex min-h-0 flex-1 flex-col' : 'hidden'} ${extra}`.trim()
 
-const Rail = ({ onOpenGames }) => {
-  const [tab, setTab] = useState('controls')
+const Rail = ({ tab }) => {
+  const {
+    notationPairs,
+    moveIndex,
+    selectPly,
+    sidelines,
+    activeSideline,
+    goToSidelineMove,
+    isLoading,
+  } = useChessControls()
+  const [mobileSettingsOpen, setMobileSettingsOpen] = useState(false)
+
+  useChessKeyboardShortcuts()
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
-      <div className="mb-2 flex flex-shrink-0 items-center justify-between gap-2 border-b border-fg-12">
-        <TabsRow tabs={TABS} value={tab} onChange={setTab} />
-        <Button variant="ghost" size="sm" iconLeft="view-list" onClick={onOpenGames}>
-          Games
-        </Button>
-      </div>
-      <div className={paneCls(tab === 'controls', 'overflow-y-auto lg:overflow-hidden')}>
-        <AlternativeControlsMock />
-      </div>
-      <div className={paneCls(tab === 'engine', 'overflow-y-auto')}>
-        <EngineTab />
-      </div>
-      <div className={paneCls(tab === 'review', 'overflow-y-auto')}>
-        <GameReview />
+    /* bg-oq-02 = the controls block's own surface — the whole rail reads as
+     * one panel */
+    <div className="flex h-full min-h-0 flex-col overflow-y-auto bg-oq-02 text-fg-88 lg:overflow-hidden">
+      <SetupPanel className={`p-3 ${mobileSettingsOpen ? '' : 'max-lg:hidden'}`} />
+
+      <PiecePalette className="hidden border-t border-oq-08 bg-fg-02 p-3 lg:block" />
+
+      <div className="flex min-h-0 flex-1 flex-col gap-4 p-3">
+        <GamePicker
+          className="flex-shrink-0"
+          actions={
+            <Button
+              variant="ghost"
+              size="sm"
+              iconOnly="settings-01"
+              className="lg:hidden"
+              selected={mobileSettingsOpen}
+              onClick={() => setMobileSettingsOpen((v) => !v)}
+              title="Board settings"
+              aria-label="Board settings"
+            />
+          }
+        />
+
+        <Divider />
+
+        {/* ── swap zone: material→notation ⟷ engine ⟷ review ── */}
+        {/* overflow-hidden: under height squeeze the pane clips (notation
+          * scrolls internally) instead of painting over the playback unit */}
+        <div className={paneCls(tab === 'controls', 'gap-4 overflow-hidden')}>
+          <MaterialSummary className="flex-shrink-0" />
+          <div className="flex min-h-0 flex-1 flex-col gap-2">
+            <div className="flex flex-shrink-0 items-center border-t border-oq-08 pt-4">
+              <span className="kol-helper-12 text-fg-80">NOTATION</span>
+            </div>
+            <div className="min-h-0 flex-1 overflow-auto rounded bg-oq-04 p-3">
+              <NotationPanel
+                notationPairs={notationPairs}
+                activePly={moveIndex}
+                onSelectPly={selectPly}
+                isLoading={isLoading}
+                sidelines={sidelines}
+                activeSideline={activeSideline}
+                onSelectSidelineMove={goToSidelineMove}
+              />
+            </div>
+          </div>
+        </div>
+        <div className={paneCls(tab === 'engine', 'overflow-y-auto')}>
+          <EngineTab active={tab === 'engine'} />
+        </div>
+        <div className={paneCls(tab === 'review', 'overflow-y-auto')}>
+          <GameReview active={tab === 'review'} />
+        </div>
+
+        <div className="order-first flex-shrink-0 lg:order-none">
+          {/* the ONE playback unit; mobile floats it to the top, above the picker */}
+          <PlaybackControls />
+        </div>
       </div>
     </div>
   )

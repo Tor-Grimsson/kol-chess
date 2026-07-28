@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useChessControls } from '@kolkrabbi/kol-chess'
-import { Badge, Button } from '@kolkrabbi/kol-component'
+import { Badge } from '@kolkrabbi/kol-component'
 import { runGameReview, buildReview } from './reviewRunner'
 import { loadOpeningIndex } from '../openings/openings'
 
@@ -54,9 +54,10 @@ const MoveCell = ({ entry, byPly, moveIndex, selectPly }) => {
   )
 }
 
-// One-click game review: sequential d14 pass over the loaded game.
-// Renders inside ChessControlsProvider (the panel slot), below the live engine row.
-const GameReview = () => {
+// Game review: sequential d14 pass over the loaded game. Selecting the
+// Review tab IS the intent (direct-intent law) — `active` auto-starts the
+// pass, no inner Run button. No own padding — the rail's spine provides it.
+const GameReview = ({ active = false }) => {
   const { snapshots, selectedGame, selectPly, moveIndex, notationPairs } = useChessControls()
   const [state, setState] = useState({ status: 'idle' })
   const abortRef = useRef(null)
@@ -98,42 +99,43 @@ const GameReview = () => {
     [review]
   )
 
+  /* Direct intent: the tab being active starts the pass. Game switch resets
+   * to idle (above), so a new game re-reviews while the tab stays selected.
+   * 'error' is not 'idle' — no retry loop. */
+  useEffect(() => {
+    if (active && state.status === 'idle' && snapshots.length >= 2) start()
+  }, [active, state.status, gameKey, snapshots.length]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={start}
-          disabled={state.status === 'running' || snapshots.length < 2}
-          selected={state.status === 'done'}
-          aria-label="Run game review"
-        >
-          Review
-        </Button>
-        {state.status === 'running' && (
-          <>
-            <div className="h-2 flex-1 overflow-hidden rounded-sm border border-fg-08 bg-neutral-900">
-              <div
-                className="h-full bg-white transition-[width]"
-                style={{ width: `${(state.done / state.total) * 100}%` }}
-              />
-            </div>
-            <span className="kol-mono-12 text-fg-secondary">
-              {state.done}/{state.total}
-            </span>
-          </>
-        )}
+      <div className="flex items-center justify-between gap-3">
+        <span className="kol-helper-12 text-fg-80">REVIEW</span>
         {review && (
           <span className="kol-mono-14">
             White {formatAccuracy(review.accuracy.white)} · Black{' '}
             {formatAccuracy(review.accuracy.black)}
           </span>
         )}
-        {state.status === 'error' && (
-          <span className="kol-mono-12 text-fg-secondary">{state.message}</span>
-        )}
       </div>
+      {state.status === 'running' && (
+        <div className="flex items-center gap-3">
+          <div className="h-2 flex-1 overflow-hidden rounded-sm border border-fg-08 bg-neutral-900">
+            <div
+              className="h-full bg-white transition-[width]"
+              style={{ width: `${(state.done / state.total) * 100}%` }}
+            />
+          </div>
+          <span className="kol-mono-12 text-fg-secondary">
+            {state.done}/{state.total}
+          </span>
+        </div>
+      )}
+      {state.status === 'error' && (
+        <span className="kol-mono-12 text-fg-secondary">{state.message}</span>
+      )}
+      {state.status === 'idle' && snapshots.length < 2 && (
+        <span className="kol-mono-12 text-fg-secondary">Load a game to review.</span>
+      )}
       {review && (
         <>
           <div className="flex flex-wrap gap-1">
@@ -145,7 +147,7 @@ const GameReview = () => {
               </Badge>
             ))}
           </div>
-          <div className="max-h-56 overflow-y-auto">
+          <div>
             {notationPairs.map((pair) => (
               <div key={pair.moveNumber} className="flex items-center gap-2">
                 <span className="kol-mono-12 text-fg-secondary w-6 text-right">
