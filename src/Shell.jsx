@@ -3,6 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { Tooltip, usePopover, PopoverPanel } from '@kolkrabbi/kol-component'
 import { Icon } from '@kolkrabbi/kol-icons'
 import { ThemeToggle } from '@kolkrabbi/kol-framework'
+import useEmbed from './useEmbed.js'
 
 /* The one nav system (quiet chrome): pawn = Home, icon-only surface links with
  * hover tooltips at md+, the same set folded into a hamburger popover below md.
@@ -58,6 +59,18 @@ function MobileMenu() {
 }
 
 export default function Shell() {
+  const embedded = useEmbed()
+
+  /* ?embed=1 — main content only, for iframing chess pages into the website's
+     workshop. The stage reserve drops to the page gutters alone: no bar. */
+  if (embedded) {
+    return (
+      <div className="[--chess-stage-reserve:102px]">
+        <Outlet />
+      </div>
+    )
+  }
+
   return (
     <div className="[--chess-stage-reserve:150px]">
       <nav className="sticky top-0 z-40 flex h-12 items-center justify-between border-b border-fg-12 bg-surface-primary px-4 md:px-6">
