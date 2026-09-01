@@ -1,39 +1,39 @@
 {
- "move_match": 0.3805574555403557,
+ "move_match": 0.4292749658002736,
  "repertoire": {
   "start": [
    {
     "san": "e4",
-    "p": 0.969
+    "p": 0.996
    },
    {
-    "san": "f4",
-    "p": 0.014
+    "san": "g4",
+    "p": 0.002
    },
    {
     "san": "e3",
-    "p": 0.005
+    "p": 0.001
    }
   ],
   "after_e4_e5": [
    {
     "san": "f4",
-    "p": 0.642
+    "p": 0.763
    },
    {
     "san": "Nf3",
-    "p": 0.343
+    "p": 0.226
    },
    {
     "san": "Nc3",
-    "p": 0.009
+    "p": 0.007
    }
   ]
  },
- "conditioning_tv": 0.2087,
- "conditioning_flip": 0.252,
- "epoch": 2,
- "top3": 0.6274965800273598,
+ "conditioning_tv": 0.2341,
+ "conditioning_flip": 0.3047,
+ "epoch": 4,
+ "top3": 0.6823187414500684,
  "baseline": 0.024367305061559506,
  "blocks": 6,
  "filters": 64,
