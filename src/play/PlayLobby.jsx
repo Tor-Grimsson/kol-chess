@@ -30,6 +30,17 @@ const INDEX_URL = `${import.meta.env.BASE_URL}books/index.json`
  * The fixed height needed a mechanism the family did not have — the row boxes
  * published a min-height FLOOR, which is precisely why the local version drifted
  * 34 → 40 → 50 → 58 every time the copy or the padding moved. */
+/* Portrait when the opponent declares one, initials when it does not — the
+ * roster has always drawn from `initialsOf` and must keep drawing before a
+ * single file lands. `portrait` is a URL, not a key, so the file can live in
+ * `public/masters/` or on the CDN without this knowing which. */
+const OpponentMedia = ({ opponent }) =>
+  opponent.portrait ? (
+    <img src={opponent.portrait} alt="" className="h-full w-full object-cover" />
+  ) : (
+    <span className="kol-helper-12 text-fg-64">{initialsOf(opponent.label)}</span>
+  )
+
 const OpponentRow = ({ opponent, positions, onPick }) => (
   <ContentRow
     variant="roster"
@@ -37,7 +48,7 @@ const OpponentRow = ({ opponent, positions, onPick }) => (
     /* `roster` reads its second line from `meta`, not `date` — the slot map is
        per variant (`default` uses date + size). */
     meta={opponent.note + (positions ? ` · ${positions.toLocaleString()} positions` : '')}
-    media={<span className="kol-helper-12 text-fg-64">{initialsOf(opponent.label)}</span>}
+    media={<OpponentMedia opponent={opponent} />}
     onClick={() => onPick(opponent.key)}
   />
 )

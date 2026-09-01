@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Dropdown, FullscreenOverlay, SectionText } from '@kolkrabbi/kol-component'
+import { Button, Dropdown, FullscreenOverlay } from '@kolkrabbi/kol-component'
 import { OPPONENTS, findOpponent } from './opponents.js'
 import { PRESETS, UNLIMITED } from './timeControls.js'
 
@@ -47,8 +47,8 @@ const CLASS_ORDER = [
 const TimeControlPicker = ({ value, onChange }) => (
   <div className="flex flex-col gap-2">
     <Button
-      variant="outline"
-      size="sm"
+      variant="primary"
+      size="lg"
       selected={value === UNLIMITED.id}
       className="w-full"
       onClick={() => onChange(UNLIMITED.id)}
@@ -65,8 +65,8 @@ const TimeControlPicker = ({ value, onChange }) => (
             {inClass.map((c) => (
               <Button
                 key={c.id}
-                variant="outline"
-                size="sm"
+                variant="primary"
+                size="lg"
                 selected={value === c.id}
                 className="w-full"
                 onClick={() => onChange(c.id)}
@@ -109,14 +109,6 @@ const NewGameDialog = ({ open, initial, onStart, onClose }) => {
         * a phone, a centred 460 on a desktop. */}
       <div className="flex w-[min(460px,calc(100vw-48px))] flex-col">
         <span className="kol-helper-12 text-fg-64">NEW GAME</span>
-        <SectionText
-          className="mt-4"
-          headline="Who, which colour, how long"
-          headlineAs="h2"
-          headlineSize="heading-05"
-          gap="gap-2"
-        />
-
         {/* A `label` is inline and `Dropdown` hugs its content by design
           * ("width belongs to the CALL SITE", 2026-08-09) — together that put
           * each caption on the same line as its control and gave the three
@@ -126,9 +118,8 @@ const NewGameDialog = ({ open, initial, onStart, onClose }) => {
           <div className="flex flex-col gap-1.5">
             <label className="kol-helper-12 text-fg-64 flex flex-col gap-1.5">
               OPPONENT
-              {/* `lg`, not the sm default — the two form fields carry the
-                * sheet's scale alongside the lg Start game; the preset chips
-                * stay sm because they are options, not fields. */}
+              {/* `lg`, not the sm default — every control on the sheet is lg,
+                * fields and time presets alike (user, 2026-09-01). */}
               <Dropdown
                 className="w-full"
                 size="lg"
@@ -171,7 +162,7 @@ const NewGameDialog = ({ open, initial, onStart, onClose }) => {
           <Button variant="accent" size="lg" className="w-full" onClick={start}>
             Start game
           </Button>
-          <Button variant="ghost" size="md" className="w-full" onClick={onClose}>
+          <Button variant="primary" size="md" className="w-full" onClick={onClose}>
             Cancel
           </Button>
         </div>

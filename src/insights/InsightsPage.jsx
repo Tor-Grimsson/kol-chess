@@ -93,8 +93,16 @@ const InsightsPage = () => {
           </p>
 
           <DashboardGrid layout="4-col">
+            {/* `2x1`, NOT `2x2` (mobile field review, 2026-09-01). `.dash-grid`
+                rows are `minmax(240px, auto)`, so a 2-row span is a 496px FLOOR
+                — and these cards are three-row tables that stop around 300 on a
+                phone, leaving a screenful of dead space under every one. The
+                grid's mobile clamp only rewrites `grid-column` for oversized
+                spans, never `grid-row`. One row, auto-grown by the table, is
+                what a table card wants at every width; the /stats CHART cards
+                keep their 2-row box because a chart needs one. */}
             {result.findings.map((f) => (
-              <GridCard key={f.id} span="2x2">
+              <GridCard key={f.id} span="2x1">
                 <DashTableCard
                   icon={KIND[f.kind].icon}
                   title={f.title}

@@ -22,25 +22,25 @@ importers:
         version: 1.33.1-dev57.0
       '@kolkrabbi/kol-chess':
         specifier: ^0.10.0
-        version: 0.10.0(@kolkrabbi/kol-component@0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.119.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        version: 0.10.0(@kolkrabbi/kol-component@0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.120.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-component':
-        specifier: ^0.148.0
-        version: 0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
+        specifier: ^0.152.0
+        version: 0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-dashboards':
-        specifier: ^0.3.0
-        version: 0.3.0(@kolkrabbi/kol-component@0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.119.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^0.4.1
+        version: 0.4.1(@kolkrabbi/kol-component@0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.120.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-framework':
         specifier: ^0.36.0
-        version: 0.36.0(@kolkrabbi/kol-component@0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
+        version: 0.36.0(@kolkrabbi/kol-component@0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-icons':
         specifier: ^0.25.0
         version: 0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-shell':
-        specifier: ^0.32.0
-        version: 0.32.0(@kolkrabbi/kol-component@0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.119.0)(gsap@3.15.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^0.34.0
+        version: 0.34.0(@kolkrabbi/kol-component@0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.120.1)(gsap@3.15.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-theme':
-        specifier: ^0.119.0
-        version: 0.119.0
+        specifier: ^0.120.1
+        version: 0.120.1
       '@tailwindcss/vite':
         specifier: ^4.3.2
         version: 4.3.2(vite@8.1.4(@types/node@20.19.43)(jiti@2.7.0))
@@ -189,8 +189,8 @@ packages:
       react: ^18.3.0 || ^19.0.0
       react-dom: ^18.3.0 || ^19.0.0
 
-  '@kolkrabbi/kol-component@0.148.0':
-    resolution: {integrity: sha512-psdBt93z3s9ICmiydwfZYk+5UJ1M77oQgv4k+zV/ec8zkk6BIEmgJKFTQssf80i6ynzsG8C7UjE+mQFcXjKxPg==}
+  '@kolkrabbi/kol-component@0.152.0':
+    resolution: {integrity: sha512-GcGRgbqADKNr8KPGtGwmVpmABI0NVL+o/DvrhdjVYnOKsynK7+rdULrPY24hUtU7QOYvDNytcpwH7S2zSuJO3Q==}
     peerDependencies:
       '@kolkrabbi/kol-icons': '>=0.22.0'
       framer-motion: ^12.0.0
@@ -206,8 +206,8 @@ packages:
       react-router-dom:
         optional: true
 
-  '@kolkrabbi/kol-dashboards@0.3.0':
-    resolution: {integrity: sha512-FmYb7g+eKpz1//rFd0AxAaPD7oJsccg8nhiL+b5VVOhfZ0AbUJSIBPwu5W7+cLWvvgLDmBHdofAm+RrRxGH+Wg==}
+  '@kolkrabbi/kol-dashboards@0.4.1':
+    resolution: {integrity: sha512-4OOdC5evIwiV7uAjpY9nLIQz2xzTGtlHq3oQSkvWMV45dSOEuxC9ugcBhT86sW4n22rfZvpi0dz/8UZV/TWyvg==}
     peerDependencies:
       '@kolkrabbi/kol-component': '>=0.11.0'
       '@kolkrabbi/kol-icons': '>=0.7.0'
@@ -231,8 +231,8 @@ packages:
       react: ^18.3.0 || ^19.0.0
       react-dom: ^18.3.0 || ^19.0.0
 
-  '@kolkrabbi/kol-shell@0.32.0':
-    resolution: {integrity: sha512-TPKhbb9CxuRyz9fYg78Z7bLrj1r/PNUalGGgr/nmWgKlZ+gjmuMFzLEgFpz4/kxvdFipsPWA7Y+9qG9BGMKsoQ==}
+  '@kolkrabbi/kol-shell@0.34.0':
+    resolution: {integrity: sha512-2rr90+4XTrcbmNh6ETOHS9edOBTQ3vx7ciqCFfLZqiBKNzuNoBDjZYdaGa2COkRTtZGrqiJWcdcibHDkKHTEbg==}
     peerDependencies:
       '@kolkrabbi/kol-component': '>=0.127.0'
       '@kolkrabbi/kol-icons': '>=0.16.0'
@@ -241,8 +241,8 @@ packages:
       react: ^18.3.0 || ^19.0.0
       react-dom: ^18.3.0 || ^19.0.0
 
-  '@kolkrabbi/kol-theme@0.119.0':
-    resolution: {integrity: sha512-r/VH+de5jp23hw2+BkPbGplsYY1KN/768ZVe+4xzLKbR1VjmFqE79BQj+TT9I80tSYviX6KiXlep9f94GAkKbw==}
+  '@kolkrabbi/kol-theme@0.120.1':
+    resolution: {integrity: sha512-HoJHIKzYLxx9BF92gRR2JywG25DFu3LM03vJW6j9hH6NCe27zwPDCEwCBU9DaKRMGpL6JAqMmL3voRbCNU/iyw==}
 
   '@lezer/common@1.5.2':
     resolution: {integrity: sha512-sxQE460fPZyU3sdc8lafxiPwJHBzZRy/udNFynGQky1SePYBdhkBl1kOagA9uT3pxR8K09bOrmTUqA9wb/PjSQ==}
@@ -1363,16 +1363,16 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@kolkrabbi/kol-chess@0.10.0(@kolkrabbi/kol-component@0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.119.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@kolkrabbi/kol-chess@0.10.0(@kolkrabbi/kol-component@0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.120.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@kolkrabbi/kol-component': 0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
+      '@kolkrabbi/kol-component': 0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-icons': 0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@kolkrabbi/kol-theme': 0.119.0
+      '@kolkrabbi/kol-theme': 0.120.1
       chess.js: 1.4.0
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
 
-  '@kolkrabbi/kol-component@0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)':
+  '@kolkrabbi/kol-component@0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@floating-ui/react': 0.27.20(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-icons': 0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -1386,17 +1386,17 @@ snapshots:
     optionalDependencies:
       react-router-dom: 7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
 
-  '@kolkrabbi/kol-dashboards@0.3.0(@kolkrabbi/kol-component@0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.119.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@kolkrabbi/kol-dashboards@0.4.1(@kolkrabbi/kol-component@0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.120.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@kolkrabbi/kol-component': 0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
+      '@kolkrabbi/kol-component': 0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-icons': 0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@kolkrabbi/kol-theme': 0.119.0
+      '@kolkrabbi/kol-theme': 0.120.1
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
 
-  '@kolkrabbi/kol-framework@0.36.0(@kolkrabbi/kol-component@0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)':
+  '@kolkrabbi/kol-framework@0.36.0(@kolkrabbi/kol-component@0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@kolkrabbi/kol-component': 0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
+      '@kolkrabbi/kol-component': 0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-icons': 0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
@@ -1407,16 +1407,16 @@ snapshots:
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
 
-  '@kolkrabbi/kol-shell@0.32.0(@kolkrabbi/kol-component@0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.119.0)(gsap@3.15.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@kolkrabbi/kol-shell@0.34.0(@kolkrabbi/kol-component@0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@kolkrabbi/kol-theme@0.120.1)(gsap@3.15.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@kolkrabbi/kol-component': 0.148.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
+      '@kolkrabbi/kol-component': 0.152.0(@kolkrabbi/kol-icons@0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(framer-motion@12.42.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(gsap@3.15.0)(hls.js@1.6.16)(react-dom@19.2.7(react@19.2.7))(react-router-dom@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
       '@kolkrabbi/kol-icons': 0.25.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@kolkrabbi/kol-theme': 0.119.0
+      '@kolkrabbi/kol-theme': 0.120.1
       gsap: 3.15.0
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
 
-  '@kolkrabbi/kol-theme@0.119.0': {}
+  '@kolkrabbi/kol-theme@0.120.1': {}
 
   '@lezer/common@1.5.2': {}
 

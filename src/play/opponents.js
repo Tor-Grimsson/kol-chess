@@ -22,17 +22,23 @@
  */
 const BOOK_URL = (key) => `${import.meta.env.BASE_URL}books/${key === 'me' ? 'style-book' : key}.json`
 
+/* 120×120 webp in `public/masters/`, square-cropped from each master's
+ * Wikimedia Commons lead portrait; `me` is the studio portrait from the
+ * website's B2 asset library (both fetched 2026-09-01). `engine` carries
+ * none — the roster falls back to initials. */
+const PORTRAIT = (key) => `${import.meta.env.BASE_URL}masters/${key}.webp`
+
 export const OPPONENTS = [
-  { key: 'me', label: 'Me — Biskupstunga', note: '27,200 chess.com games', rated: true },
-  { key: 'fischer', label: 'Bobby Fischer', note: '827 games · 1.e4 by test', rated: false },
-  { key: 'tal', label: 'Mikhail Tal', note: '2,431 games · the attack', rated: false },
-  { key: 'capablanca', label: 'José Raúl Capablanca', note: '597 games · the machine', rated: false },
-  { key: 'alekhine', label: 'Alexander Alekhine', note: '1,654 games', rated: false },
-  { key: 'petrosian', label: 'Tigran Petrosian', note: '1,893 games · iron prophylaxis', rated: false },
-  { key: 'botvinnik', label: 'Mikhail Botvinnik', note: '891 games · the patriarch', rated: false },
-  { key: 'keres', label: 'Paul Keres', note: '1,571 games', rated: false },
-  { key: 'larsen', label: 'Bent Larsen', note: '2,268 games · 1.c4 and worse', rated: false },
-  { key: 'olafsson', label: 'Friðrik Ólafsson', note: "892 games · Iceland's first GM", rated: false },
+  { key: 'me', label: 'Me — Biskupstunga', note: '27,200 chess.com games', rated: true, portrait: PORTRAIT('me') },
+  { key: 'fischer', label: 'Bobby Fischer', note: '827 games · 1.e4 by test', rated: false, portrait: PORTRAIT('fischer') },
+  { key: 'tal', label: 'Mikhail Tal', note: '2,431 games · the attack', rated: false, portrait: PORTRAIT('tal') },
+  { key: 'capablanca', label: 'José Raúl Capablanca', note: '597 games · the machine', rated: false, portrait: PORTRAIT('capablanca') },
+  { key: 'alekhine', label: 'Alexander Alekhine', note: '1,654 games', rated: false, portrait: PORTRAIT('alekhine') },
+  { key: 'petrosian', label: 'Tigran Petrosian', note: '1,893 games · iron prophylaxis', rated: false, portrait: PORTRAIT('petrosian') },
+  { key: 'botvinnik', label: 'Mikhail Botvinnik', note: '891 games · the patriarch', rated: false, portrait: PORTRAIT('botvinnik') },
+  { key: 'keres', label: 'Paul Keres', note: '1,571 games', rated: false, portrait: PORTRAIT('keres') },
+  { key: 'larsen', label: 'Bent Larsen', note: '2,268 games · 1.c4 and worse', rated: false, portrait: PORTRAIT('larsen') },
+  { key: 'olafsson', label: 'Friðrik Ólafsson', note: "892 games · Iceland's first GM", rated: false, portrait: PORTRAIT('olafsson') },
   /* No book at all — straight Stockfish at the chosen Elo. The control group:
      it is what the others sound like with the style removed. */
   { key: 'engine', label: 'Engine only', note: 'no book — Stockfish at the set Elo', rated: true }
