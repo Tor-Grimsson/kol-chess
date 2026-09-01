@@ -1,0 +1,57 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic "kol-chess" [ref=e6] [cursor=pointer]
+    - generic [ref=e14]:
+      - button "Overview" [ref=e15] [cursor=pointer]
+      - generic: Overview
+    - generic [ref=e19]:
+      - button "Board" [ref=e20] [cursor=pointer]
+      - generic: Board
+    - generic [ref=e27]:
+      - button "Play" [ref=e28] [cursor=pointer]
+      - generic: Play
+    - generic [ref=e32]:
+      - button "Database" [ref=e33] [cursor=pointer]
+      - generic: Database
+    - generic [ref=e37]:
+      - button "Statistics" [ref=e38] [cursor=pointer]
+      - generic: Statistics
+    - generic [ref=e43]:
+      - button "Insights" [ref=e44] [cursor=pointer]
+      - generic: Insights
+    - generic [ref=e51]:
+      - button "The bot" [ref=e52] [cursor=pointer]
+      - generic: The bot
+    - generic [ref=e58]:
+      - button "Settings" [ref=e59] [cursor=pointer]
+      - generic: Settings
+  - generic [ref=e65]:
+    - banner [ref=e66]:
+      - heading "Settings" [level=1] [ref=e67]
+      - generic [ref=e68]:
+        - paragraph [ref=e69]: Appearance and shortcuts for this browser.
+        - button "Switch to dark mode" [ref=e71] [cursor=pointer]
+    - generic [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - heading "Preferences" [level=2] [ref=e85]
+          - generic [ref=e89]:
+            - button "Toggle filters" [ref=e90] [cursor=pointer]
+            - button "Search" [ref=e95]
+        - generic [ref=e100]: Settings
+      - generic "About" [ref=e108] [cursor=pointer]
+      - generic [ref=e112]:
+        - paragraph [ref=e113]: KEYBOARD
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - generic [ref=e116]: ⌥1 · ⌥2
+            - generic [ref=e117]: Overview — the mark and the first rung both go home
+          - generic [ref=e120]:
+            - generic [ref=e121]: ⌥3 — ⌥8
+            - generic [ref=e122]: Board · Play · Database · Statistics · Insights · The bot, in rail order
+          - generic [ref=e125]:
+            - generic [ref=e126]: ","
+            - generic [ref=e127]: Settings — press again to go back where you were
+          - generic [ref=e130]:
+            - generic [ref=e131]: RAIL EDGE
+            - generic [ref=e132]: Drag it open to reveal the nav labels

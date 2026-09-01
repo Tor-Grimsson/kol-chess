@@ -6,3 +6,4 @@
 - [Fix, don't hand back](fix-dont-hand-back.md) — scan/audit tasks include the fixes; never table findings as "your call" or list what wasn't done
 - [Check the estate before DS findings](check-estate-before-ds-findings.md) — kol-ds-ui lobby ledger + kol-website audits hold the rulings (touch floor 24px); DS defects go to the lobby, never a consumer override
 - [End every reply with "-- end of turn"](end-of-turn-marker.md) — his activity indicator is always moving, so he can't tell when it's his turn
+- [Git is syntax-only](git-syntax-only.md) — never run git writes even as an offer; ask to read, hand him the commands
