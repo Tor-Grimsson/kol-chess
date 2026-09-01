@@ -1,6 +1,11 @@
 # stockfish's postinstall only symlinks stockfish.js -> the full build; we copy
 # the lite-single build into public/engine ourselves, so the script stays off.
+# protobufjs is onnxruntime-web's dependency. Its postinstall only generates
+# type stubs for its own tooling; the runtime we load is the prebuilt wasm
+# bundle, which needs none of it. Off, so the build is deterministic here and
+# in CI rather than waiting on an interactive approval.
 allowBuilds:
+  protobufjs: false
   stockfish: false
 # KOL packages are our own same-day publishes — the release-age gate only
 # fights the bump loop. Exclude the scope once instead of per-version.

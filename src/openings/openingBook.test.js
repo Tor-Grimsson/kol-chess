@@ -1,7 +1,7 @@
 // Run: node --test src/openings/openingBook.test.js
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { Chess } from 'chess.js'
+import { Chess } from '../lib/rules.js'
 import { buildOpeningIndex, deepestOpening, epdOf } from './openingBook.js'
 
 const TSV = [

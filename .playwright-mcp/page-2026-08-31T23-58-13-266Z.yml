@@ -1,0 +1,80 @@
+- generic [ref=f79e3]:
+  - button "Open navigation" [ref=f79e4] [cursor=pointer]
+  - generic [ref=f79e6]:
+    - generic "kol-chess" [ref=f79e7] [cursor=pointer]
+    - generic [ref=f79e11]:
+      - button "Overview" [ref=f79e12] [cursor=pointer]
+      - generic [ref=f79e14] [cursor=pointer]: Overview
+    - generic [ref=f79e15]:
+      - button "Board" [ref=f79e16] [cursor=pointer]
+      - generic [ref=f79e18] [cursor=pointer]: Board
+    - generic [ref=f79e19]:
+      - button "Play" [ref=f79e20] [cursor=pointer]
+      - generic [ref=f79e22] [cursor=pointer]: Play
+    - generic [ref=f79e23]:
+      - button "Database" [ref=f79e24] [cursor=pointer]
+      - generic [ref=f79e26] [cursor=pointer]: Database
+    - generic [ref=f79e27]:
+      - button "Statistics" [ref=f79e28] [cursor=pointer]
+      - generic [ref=f79e30] [cursor=pointer]: Statistics
+    - generic [ref=f79e31]:
+      - button "Insights" [ref=f79e32] [cursor=pointer]
+      - generic [ref=f79e34] [cursor=pointer]: Insights
+    - generic [ref=f79e35]:
+      - button "The bot" [ref=f79e36] [cursor=pointer]
+      - generic [ref=f79e38] [cursor=pointer]: The bot
+    - generic [ref=f79e40]:
+      - button "Settings" [ref=f79e41] [cursor=pointer]
+      - generic [ref=f79e43] [cursor=pointer]: Settings
+  - generic [ref=f79e45]:
+    - banner [ref=f79e46]:
+      - heading "Overview" [level=1] [ref=f79e49]
+    - main [ref=f79e50]:
+      - generic [ref=f79e51]:
+        - heading "27,200 games, one database." [level=2] [ref=f79e52]
+        - paragraph [ref=f79e53]: Every game scraped from chess.com, stored as a browsable archive, replayable move by move, and aggregated into statistics.
+      - generic [ref=f79e54]:
+        - generic [ref=f79e55]:
+          - definition [ref=f79e56]: 27,200
+          - term [ref=f79e57]: GAMES
+        - generic [ref=f79e58]:
+          - definition [ref=f79e59]: "106"
+          - term [ref=f79e60]: MONTHLY ARCHIVES
+        - generic [ref=f79e61]:
+          - definition [ref=f79e62]: 2017–2025
+          - term [ref=f79e63]: SPAN
+      - list [ref=f79e64]:
+        - listitem [ref=f79e65]:
+          - link "SCRAPE 01 The chess.com API, pulled month by month — every archive since 2017. kol-scrape source ↗" [ref=f79e66] [cursor=pointer]:
+            - /url: https://github.com/Tor-Grimsson/kol-ds/tree/main/packages/scrape
+            - heading "SCRAPE" [level=3] [ref=f79e68]
+            - generic [ref=f79e69]: "01"
+            - paragraph [ref=f79e71]: The chess.com API, pulled month by month — every archive since 2017. kol-scrape source ↗
+        - listitem [ref=f79e72]:
+          - generic [ref=f79e73]:
+            - heading "STORE" [level=3] [ref=f79e75]
+            - generic [ref=f79e76]: "02"
+            - paragraph [ref=f79e78]: Games kept as monthly JSON shards on a CDN. No server, no backend — the browser loads what it needs.
+        - listitem [ref=f79e79]:
+          - generic [ref=f79e80]:
+            - heading "REPLAY" [level=3] [ref=f79e82]
+            - generic [ref=f79e83]: "03"
+            - paragraph [ref=f79e85]: "Any game on the board: notation, variations, Stockfish analysis, one-click game review."
+        - listitem [ref=f79e86]:
+          - generic [ref=f79e87]:
+            - heading "AGGREGATE" [level=3] [ref=f79e89]
+            - generic [ref=f79e90]: "04"
+            - paragraph [ref=f79e92]: The full set computed client-side — results, openings, streaks, rating history.
+      - generic [ref=f79e93]:
+        - button "Open the board" [ref=f79e94] [cursor=pointer]
+        - button "Database" [ref=f79e97] [cursor=pointer]
+        - button "Statistics" [ref=f79e100] [cursor=pointer]
+        - link "Blog post" [ref=f79e103] [cursor=pointer]:
+          - /url: https://kolkrabbi.io/stack/27200-chess-games
+        - link "Chess set in the DS" [ref=f79e106] [cursor=pointer]:
+          - /url: https://ui.kolkrabbi.io/sets/chess-apparatus
+        - link "GitHub" [ref=f79e109] [cursor=pointer]:
+          - /url: https://github.com/Tor-Grimsson/kol-chess
+      - generic [ref=f79e112]:
+        - generic [ref=f79e113]: BUILT WITH
+        - paragraph [ref=f79e114]: React · Vite · KOL design system · chessops · Stockfish 18 · DuckDB-WASM

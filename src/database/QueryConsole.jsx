@@ -3,7 +3,7 @@ import CodeMirror from '@uiw/react-codemirror'
 import { sql } from '@codemirror/lang-sql'
 import { keymap } from '@codemirror/view'
 import { Prec } from '@codemirror/state'
-import { Button, MenuItem, MenuDropdownItem } from '@kolkrabbi/kol-component'
+import { Button, MenuItem, MenuDropdownItem, Table, Tag } from '@kolkrabbi/kol-component'
 import { useTheme } from '@kolkrabbi/kol-framework'
 import { getDb, runQuery, SCHEMA } from './duck'
 
@@ -258,15 +258,9 @@ export default function QueryConsole({ lessonSql = null, onLessonConsumed = () =
         <div className="kol-mono-12 text-fg-48 mb-6 flex flex-wrap items-center gap-x-3 gap-y-1">
           <span className="kol-helper-10">HISTORY</span>
           {history.slice(0, HISTORY_SHOWN).map((h) => (
-            <button
-              key={h}
-              type="button"
-              className="max-w-64 truncate rounded px-1 hover:bg-oq-04"
-              title={h}
-              onClick={() => setQuery(h)}
-            >
+            <Tag key={h} hash={false} size="sm" variant="secondary" className="max-w-64 truncate" onClick={() => setQuery(h)}>
               {h.replace(/\s+/g, ' ')}
-            </button>
+            </Tag>
           ))}
         </div>
       )}
@@ -274,36 +268,27 @@ export default function QueryConsole({ lessonSql = null, onLessonConsumed = () =
       {error && <p className="kol-mono-12 text-fg-secondary whitespace-pre-wrap">{error}</p>}
 
       {result && !error && (
-        <div className="overflow-x-auto">
-          <table className="kol-table w-full">
-            <thead>
-              <tr>
-                {result.columns.map((c, i) => (
-                  <th key={c} className="px-3 py-2 text-left align-top">
-                    <div className="kol-helper-10 text-fg-64">{c}</div>
-                    {/* DuckDB-UI-style column profile: type · distinct · range */}
-                    <div className="kol-mono-10 text-fg-48 mt-0.5 font-normal">
-                      {result.types[i].toLowerCase()} · {profiles?.[i]?.distinct} distinct
-                      {profiles?.[i]?.range && <span> · {profiles[i].range}</span>}
-                      {profiles?.[i]?.nulls > 0 && <span> · {profiles[i].nulls} ∅</span>}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {result.rows.slice(0, MAX_SHOWN).map((row, i) => (
-                <tr key={i} className="kol-table-row">
-                  {result.columns.map((c) => (
-                    <td key={c} className="kol-table-cell-text kol-mono-12 px-3 py-1.5">
-                      {cell(row[c])}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        /* THE data table (kol-component Table) — a query result needs the room,
+           so width="column" (no panel cap). The header cell carries the
+           DuckDB-UI column profile: type · distinct · range · nulls. */
+        <Table
+          width="column"
+          columns={result.columns.map((c, i) => ({
+            accessor: c,
+            header: (
+              <span className="flex flex-col gap-0.5">
+                <span>{c}</span>
+                <span className="kol-mono-10 text-fg-48 font-normal normal-case">
+                  {result.types[i].toLowerCase()} · {profiles?.[i]?.distinct} distinct
+                  {profiles?.[i]?.range && <span> · {profiles[i].range}</span>}
+                  {profiles?.[i]?.nulls > 0 && <span> · {profiles[i].nulls} ∅</span>}
+                </span>
+              </span>
+            ),
+            render: (row) => cell(row[c]),
+          }))}
+          rows={result.rows.slice(0, MAX_SHOWN)}
+        />
       )}
     </div>
   )

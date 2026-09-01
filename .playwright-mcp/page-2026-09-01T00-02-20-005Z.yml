@@ -1,0 +1,106 @@
+- generic [ref=f83e3]:
+  - button "Open navigation" [ref=f83e4] [cursor=pointer]
+  - generic [ref=f83e6]:
+    - generic "kol-chess" [ref=f83e7] [cursor=pointer]
+    - generic [ref=f83e11]:
+      - button "Overview" [ref=f83e12] [cursor=pointer]
+      - generic [ref=f83e14] [cursor=pointer]: Overview
+    - generic [ref=f83e15]:
+      - button "Board" [ref=f83e16] [cursor=pointer]
+      - generic [ref=f83e18] [cursor=pointer]: Board
+    - generic [ref=f83e19]:
+      - button "Play" [ref=f83e20] [cursor=pointer]
+      - generic [ref=f83e22] [cursor=pointer]: Play
+    - generic [ref=f83e23]:
+      - button "Database" [ref=f83e24] [cursor=pointer]
+      - generic [ref=f83e26] [cursor=pointer]: Database
+    - generic [ref=f83e27]:
+      - button "Statistics" [ref=f83e28] [cursor=pointer]
+      - generic [ref=f83e30] [cursor=pointer]: Statistics
+    - generic [ref=f83e31]:
+      - button "Insights" [ref=f83e32] [cursor=pointer]
+      - generic [ref=f83e34] [cursor=pointer]: Insights
+    - generic [ref=f83e35]:
+      - button "The bot" [ref=f83e36] [cursor=pointer]
+      - generic [ref=f83e38] [cursor=pointer]: The bot
+    - generic [ref=f83e40]:
+      - button "Settings" [ref=f83e41] [cursor=pointer]
+      - generic [ref=f83e43] [cursor=pointer]: Settings
+  - generic [ref=f83e45]:
+    - banner [ref=f83e46]:
+      - heading "Play" [level=1] [ref=f83e49]
+    - generic [ref=f83e50]:
+      - button "New game" [ref=f83e51] [cursor=pointer]
+      - generic [ref=f83e52]:
+        - generic [ref=f83e53]: OR PICK AN OPPONENT
+        - list [ref=f83e54]:
+          - listitem [ref=f83e55]:
+            - button "ME Me — Biskupstunga 27,200 chess.com games" [ref=f83e56] [cursor=pointer]:
+              - generic [ref=f83e57]: ME
+              - generic [ref=f83e59]:
+                - generic [ref=f83e60]: Me — Biskupstunga
+                - generic [ref=f83e61]: 27,200 chess.com games
+          - listitem [ref=f83e62]:
+            - button "BF Bobby Fischer 827 games · 1.e4 by test" [ref=f83e63] [cursor=pointer]:
+              - generic [ref=f83e64]: BF
+              - generic [ref=f83e66]:
+                - generic [ref=f83e67]: Bobby Fischer
+                - generic [ref=f83e68]: 827 games · 1.e4 by test
+          - listitem [ref=f83e69]:
+            - button "MT Mikhail Tal 2,431 games · the attack" [ref=f83e70] [cursor=pointer]:
+              - generic [ref=f83e71]: MT
+              - generic [ref=f83e73]:
+                - generic [ref=f83e74]: Mikhail Tal
+                - generic [ref=f83e75]: 2,431 games · the attack
+          - listitem [ref=f83e76]:
+            - button "JC José Raúl Capablanca 597 games · the machine" [ref=f83e77] [cursor=pointer]:
+              - generic [ref=f83e78]: JC
+              - generic [ref=f83e80]:
+                - generic [ref=f83e81]: José Raúl Capablanca
+                - generic [ref=f83e82]: 597 games · the machine
+          - listitem [ref=f83e83]:
+            - button "AA Alexander Alekhine 1,654 games" [ref=f83e84] [cursor=pointer]:
+              - generic [ref=f83e85]: AA
+              - generic [ref=f83e87]:
+                - generic [ref=f83e88]: Alexander Alekhine
+                - generic [ref=f83e89]: 1,654 games
+          - listitem [ref=f83e90]:
+            - button "TP Tigran Petrosian 1,893 games · iron prophylaxis" [ref=f83e91] [cursor=pointer]:
+              - generic [ref=f83e92]: TP
+              - generic [ref=f83e94]:
+                - generic [ref=f83e95]: Tigran Petrosian
+                - generic [ref=f83e96]: 1,893 games · iron prophylaxis
+          - listitem [ref=f83e97]:
+            - button "MB Mikhail Botvinnik 891 games · the patriarch" [ref=f83e98] [cursor=pointer]:
+              - generic [ref=f83e99]: MB
+              - generic [ref=f83e101]:
+                - generic [ref=f83e102]: Mikhail Botvinnik
+                - generic [ref=f83e103]: 891 games · the patriarch
+          - listitem [ref=f83e104]:
+            - button "PK Paul Keres 1,571 games" [ref=f83e105] [cursor=pointer]:
+              - generic [ref=f83e106]: PK
+              - generic [ref=f83e108]:
+                - generic [ref=f83e109]: Paul Keres
+                - generic [ref=f83e110]: 1,571 games
+          - listitem [ref=f83e111]:
+            - button "BL Bent Larsen 2,268 games · 1.c4 and worse" [ref=f83e112] [cursor=pointer]:
+              - generic [ref=f83e113]: BL
+              - generic [ref=f83e115]:
+                - generic [ref=f83e116]: Bent Larsen
+                - generic [ref=f83e117]: 2,268 games · 1.c4 and worse
+          - listitem [ref=f83e118]:
+            - button "FÓ Friðrik Ólafsson 892 games · Iceland's first GM" [ref=f83e119] [cursor=pointer]:
+              - generic [ref=f83e120]: FÓ
+              - generic [ref=f83e122]:
+                - generic [ref=f83e123]: Friðrik Ólafsson
+                - generic [ref=f83e124]: 892 games · Iceland's first GM
+          - listitem [ref=f83e125]:
+            - button "EO Engine only no book — Stockfish at the set Elo" [ref=f83e126] [cursor=pointer]:
+              - generic [ref=f83e127]: EO
+              - generic [ref=f83e129]:
+                - generic [ref=f83e130]: Engine only
+                - generic [ref=f83e131]: no book — Stockfish at the set Elo
+      - paragraph [ref=f83e132]:
+        - text: Every opponent is a position book built from real games, not a language model.
+        - link "How the bot works" [ref=f83e133] [cursor=pointer]:
+          - /url: /bot

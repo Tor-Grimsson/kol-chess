@@ -2,7 +2,7 @@
 title: Database page
 type: guide
 status: active
-updated: 2026-07-28
+updated: 2026-08-26
 audience: internal
 description: The /database page — DuckDB-WASM setup, the games table schema, the Query / Browse / Learn tabs, and how to add canned queries and Learn lessons.
 aliases:
@@ -53,7 +53,7 @@ Tabs stay mounted — table scope and query results survive switches.
 
 - **Query** — the SQL console (`QueryConsole.jsx`): CodeMirror with SQL highlighting, **⌘⏎ runs**, a Columns insert-menu, per-column result profiles (type / distinct / min–max), canned queries, and saved queries + run history in `localStorage` (`kol-chess-sql-saved` / `kol-chess-sql-history`).
 - **Browse** — the archive table (`GameArchiveTable` from kol-chess); **Load here** hands the game to the board via `queueGame` → `/analysis` consumes it on mount.
-- **Learn** — 8 lessons from "Tables, rows, columns" to window functions (`LearnTab.jsx`); a lesson's example lands in the Query console pre-filled.
+- **Learn** — 8 lessons from "Tables, rows, columns" to window functions, then a **Find games** block of 8 question-shaped filter recipes (F1–F8, each naming the one value to swap) (`LearnTab.jsx`); a card's example lands in the Query console pre-filled.
 
 ## HOW-TO: add a canned query
 
@@ -61,4 +61,4 @@ Edit `CANNED` at the top of `src/database/QueryConsole.jsx` — `{ label, sql }`
 
 ## HOW-TO: add a Learn lesson
 
-Edit `LESSONS` at the top of `src/database/LearnTab.jsx` — `{ title, prose, sql }`. Keep the sequence didactic: each lesson leans on the previous one's concept, and every `sql` must run against the `games` schema above.
+Edit `LESSONS` (curriculum) or `RECIPES` (Find games) in `src/database/LearnTab.jsx` — `{ n, title, body, sql }`. Keep the sequence didactic: each lesson leans on the previous one's concept, and every `sql` must run against the `games` schema above.

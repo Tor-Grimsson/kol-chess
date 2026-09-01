@@ -1,4 +1,4 @@
-import { Chess } from 'chess.js'
+import { Chess } from '../lib/rules.js'
 
 // Position key: FEN without move counters (EPD), so transpositions match.
 export const epdOf = (fen) => fen.split(' ').slice(0, 4).join(' ')

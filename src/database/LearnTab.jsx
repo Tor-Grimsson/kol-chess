@@ -1,8 +1,10 @@
-import { Button } from '@kolkrabbi/kol-component'
+import { Button, CodeBlock, ContentText, SectionText } from '@kolkrabbi/kol-component'
 
 /* The Learn tab — an 8-step SQL curriculum that runs on the reader's own
- * 27k games. Every lesson ends in "Try it →", which loads + executes the
- * query in the Query tab. Copy is a first draft — content layer, editable. */
+ * 27k games, then a "Find games" recipe block: question-shaped filters,
+ * each with the one value to swap. Every card ends in "Try it →", which
+ * loads + executes the query in the Query tab. Copy is a first draft —
+ * content layer, editable. */
 
 const LESSONS = [
   {
@@ -55,22 +57,196 @@ const LESSONS = [
   },
 ]
 
+/* Find games — one question per card, one WHERE, one value to swap.
+ * Every card returns the url column: paste it into the board's Paste
+ * popover (or open it on chess.com) to load the game. */
+const COLS = 'SELECT played_at, opponent, opponent_rating, color, result, url\nFROM games\n'
+
+const RECIPES = [
+  {
+    n: 'F1',
+    title: 'Games against one opponent',
+    body: 'Swap the username. Names are case-sensitive — copy one as it appears in Browse.',
+    sql: COLS + "WHERE opponent = 'DARTH-ZANE'\nORDER BY played_at DESC",
+  },
+  {
+    n: 'F2',
+    title: 'My wins as black',
+    body: "Swap 'black' ↔ 'white', or 'win' ↔ 'loss' / 'draw'.",
+    sql: COLS + "WHERE color = 'black' AND result = 'win'\nORDER BY played_at DESC\nLIMIT 50",
+  },
+  {
+    n: 'F3',
+    title: 'Games in one opening',
+    body: 'eco is the chess.com opening URL, so match on a word inside it. ILIKE is LIKE ignoring case; % means "anything here". Swap the word.',
+    sql: COLS + "WHERE eco ILIKE '%Scandinavian%'\nORDER BY played_at DESC\nLIMIT 50",
+  },
+  {
+    n: 'F4',
+    title: 'Games in one month',
+    body: "month is text in YYYY-MM form. Swap the month. For a whole year, use month LIKE '2023-%'.",
+    sql: COLS + "WHERE month = '2023-06'\nORDER BY played_at",
+  },
+  {
+    n: 'F5',
+    title: 'Games between two dates',
+    body: 'played_at is a timestamp; plain date strings work with BETWEEN. Swap either end.',
+    sql: COLS + "WHERE played_at BETWEEN '2024-01-01' AND '2024-03-31'\nORDER BY played_at",
+  },
+  {
+    n: 'F6',
+    title: 'Rated blitz against strong opponents',
+    body: "rated is true/false so it stands alone. Swap the rating floor or the time class ('bullet', 'rapid', 'daily').",
+    sql: COLS + "WHERE rated AND time_class = 'blitz' AND opponent_rating >= 1800\nORDER BY opponent_rating DESC\nLIMIT 50",
+  },
+  {
+    n: 'F7',
+    title: 'Upsets — wins over higher-rated opponents',
+    body: 'Columns can be compared to each other, not just to values. The ORDER BY sorts by the size of the rating gap.',
+    sql: COLS + "WHERE result = 'win' AND opponent_rating > player_rating\nORDER BY opponent_rating - player_rating DESC\nLIMIT 50",
+  },
+  {
+    n: 'F8',
+    title: 'Stack the filters',
+    body: 'Every condition above chains with AND. Drop a line to widen the net, add one to narrow it.',
+    sql: COLS + "WHERE rated\n  AND color = 'black'\n  AND eco ILIKE '%Sicilian%'\n  AND result = 'win'\n  AND opponent_rating >= 1500\nORDER BY played_at DESC",
+  },
+]
+
+/* Find games by OPENING — the second recipe group.
+ *
+ * `eco` is not a three-letter code: it is chess.com's opening URL, e.g.
+ *   https://www.chess.com/openings/Kings-Gambit-Accepted-Fischer-Defense-4.Bc4
+ * so the family, the variation and the move that defined it are all inside one
+ * string. That makes openings queryable with plain text matching — and it is why
+ * the cards below are mostly about getting a NAME out of a URL.
+ *
+ * THE CAVEAT THAT RIDES EVERY ROW: this is the opening the game was classified
+ * as at the END of its opening phase, not the one chosen at move 1. Openings
+ * transpose — a line reached from a different move order lands in the same
+ * bucket. Counting them is right; calling them all a deliberate choice is not.
+ */
+const OPENING_RECIPES = [
+  {
+    n: 'O1',
+    title: 'The opening name, pulled out of the URL',
+    body: 'regexp_extract takes the first bracketed group of the pattern. Here it grabs the letters-and-dashes right after /openings/, which is the family plus variation, and replace() turns the dashes into spaces. Everything below builds on this line.',
+    sql:
+      "SELECT replace(regexp_extract(eco, 'openings/([A-Za-z-]+)', 1), '-', ' ') AS opening,\n" +
+      '       count(*) AS games\n' +
+      'FROM games\n' +
+      'WHERE eco IS NOT NULL\n' +
+      'GROUP BY opening\nORDER BY games DESC\nLIMIT 25',
+  },
+  {
+    n: 'O2',
+    title: 'Score by opening family',
+    body: 'A win is 1, a draw is a half, a loss is 0 — that is score%, the number that actually says whether an opening works. split_part cuts the URL at each dash and keeps the first two words, which is roughly the family. min 30 games so a lucky handful cannot top the table.',
+    sql:
+      "SELECT split_part(regexp_extract(eco, 'openings/([A-Za-z-]+)', 1), '-', 1) || ' ' ||\n" +
+      "       split_part(regexp_extract(eco, 'openings/([A-Za-z-]+)', 1), '-', 2) AS family,\n" +
+      '       count(*) AS games,\n' +
+      "       round(100.0 * (count(*) FILTER (WHERE result = 'win') +\n" +
+      "                      0.5 * count(*) FILTER (WHERE result = 'draw')) / count(*), 1) AS score_pct\n" +
+      'FROM games\nWHERE eco IS NOT NULL\nGROUP BY family\nHAVING count(*) >= 30\nORDER BY score_pct DESC',
+  },
+  {
+    n: 'O3',
+    title: "Inside one opening — King's Gambit variations",
+    body: "ILIKE '%Kings-Gambit%' catches every King's Gambit line. Grouping by the full opening string breaks the family into its variations, so you can see which branch carries the score and which one leaks. Swap the pattern for any opening.",
+    sql:
+      "SELECT replace(regexp_extract(eco, 'openings/([A-Za-z-]+)', 1), '-', ' ') AS variation,\n" +
+      '       count(*) AS games,\n' +
+      "       round(100.0 * (count(*) FILTER (WHERE result = 'win') +\n" +
+      "                      0.5 * count(*) FILTER (WHERE result = 'draw')) / count(*), 1) AS score_pct\n" +
+      "FROM games\nWHERE eco ILIKE '%Kings-Gambit%'\nGROUP BY variation\nHAVING count(*) >= 20\nORDER BY games DESC",
+  },
+  {
+    n: 'O4',
+    title: 'Does an opening survive stronger opposition?',
+    body: "Rounding the rating to the nearest hundred buckets the games into bands, so you can read one opening down the rating ladder. The Dutch is the example because it is the interesting case — watch what the score does as the band climbs.",
+    sql:
+      'SELECT round(player_rating / 100) * 100 AS band,\n' +
+      '       count(*) AS games,\n' +
+      "       round(100.0 * (count(*) FILTER (WHERE result = 'win') +\n" +
+      "                      0.5 * count(*) FILTER (WHERE result = 'draw')) / count(*), 1) AS score_pct\n" +
+      "FROM games\nWHERE eco ILIKE '%Dutch%'\nGROUP BY band\nHAVING count(*) >= 20\nORDER BY band",
+  },
+  {
+    n: 'O5',
+    title: 'The openings that beat me',
+    body: 'Flip the question: instead of what you score with an opening, ask which ones you lose in most often. Filter by colour to separate your own repertoire from what is being played at you.',
+    sql:
+      "SELECT replace(regexp_extract(eco, 'openings/([A-Za-z-]+)', 1), '-', ' ') AS opening,\n" +
+      '       count(*) AS losses\n' +
+      "FROM games\nWHERE result = 'loss' AND color = 'black' AND eco IS NOT NULL\n" +
+      'GROUP BY opening\nORDER BY losses DESC\nLIMIT 20',
+  },
+  {
+    n: 'O6',
+    title: 'One opening, over the years',
+    body: 'A repertoire is not static. Grouping an opening by year shows when you picked it up, when it peaked, and whether you still play it. Swap the pattern for any opening you want the history of.',
+    sql:
+      "SELECT substr(month, 1, 4) AS year,\n" +
+      '       count(*) AS games,\n' +
+      "       round(100.0 * (count(*) FILTER (WHERE result = 'win') +\n" +
+      "                      0.5 * count(*) FILTER (WHERE result = 'draw')) / count(*), 1) AS score_pct\n" +
+      "FROM games\nWHERE eco ILIKE '%French%'\nGROUP BY year\nORDER BY year",
+  },
+]
+
+/* One card = the DS content text (article row: kicker · title · body) over
+ * the one code surface (CodeBlock) and a Button. Seam is the opaque tier. */
+function Card({ item, onTry }) {
+  return (
+    <section className="flex flex-col gap-3 border-t border-oq-08 pt-3">
+      <ContentText variant="article" form="row" kicker={item.n} title={item.title} body={item.body} />
+      <CodeBlock code={item.sql} language="sql" size="sm" />
+      <div>
+        <Button variant="primary" size="sm" onClick={() => onTry(item.sql)}>
+          Try it →
+        </Button>
+      </div>
+    </section>
+  )
+}
+
 export default function LearnTab({ onTry }) {
   return (
-    <div className="grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2">
-      {LESSONS.map((lesson) => (
-        <section key={lesson.n} className="border-t border-fg-12 pt-3">
-          <span className="kol-helper-10 text-fg-48">{lesson.n}</span>
-          <h2 className="kol-mono-14 text-emphasis mt-2">{lesson.title}</h2>
-          <p className="kol-mono-12 text-fg-64 mt-2">{lesson.body}</p>
-          <pre className="kol-mono-12 text-fg-80 mt-3 overflow-x-auto rounded bg-oq-02 p-3">{lesson.sql}</pre>
-          <div className="mt-2">
-            <Button variant="primary" size="sm" onClick={() => onTry(lesson.sql)}>
-              Try it →
-            </Button>
-          </div>
-        </section>
-      ))}
+    <div className="max-w-[var(--kol-content-canvas)]">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {LESSONS.map((lesson) => (
+          <Card key={lesson.n} item={lesson} onTry={onTry} />
+        ))}
+      </div>
+      <SectionText
+        className="mt-12 mb-8"
+        headline="Find games"
+        headlineAs="h2"
+        headlineSize="heading-04"
+        body="One question per card. Try it, then change the one value the note points at."
+        bodyClass="kol-mono-12 text-fg-64"
+        gap="gap-2"
+      />
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {RECIPES.map((recipe) => (
+          <Card key={recipe.n} item={recipe} onTry={onTry} />
+        ))}
+      </div>
+      <SectionText
+        className="mt-12 mb-8"
+        headline="Openings"
+        headlineAs="h2"
+        headlineSize="heading-04"
+        body="eco holds the chess.com opening URL, so the family, the variation and the move that named it all sit in one string. These pull a readable name out of it and then ask the questions worth asking. One caveat rides every row: this is what the game was classified as at the end of its opening phase, not what was chosen at move 1 — openings transpose into one another."
+        bodyClass="kol-mono-12 text-fg-64"
+        gap="gap-2"
+      />
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {OPENING_RECIPES.map((recipe) => (
+          <Card key={recipe.n} item={recipe} onTry={onTry} />
+        ))}
+      </div>
     </div>
   )
 }

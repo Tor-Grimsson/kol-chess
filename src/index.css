@@ -1,15 +1,13 @@
 @import "tailwindcss";
 @import "@kolkrabbi/kol-theme";
+/* kol-framework: page scaffold (.kol-page), padding ramp, shell grid, html/body
+   canvas — layered like the theme so consumer utilities still win. */
+@import "@kolkrabbi/kol-framework/kol-framework.css" layer(components);
 
 /* kol-chess ships raw source; Tailwind skips node_modules, so scan it explicitly
    or its board/control utility classes never generate. */
 @source "../node_modules/@kolkrabbi/kol-chess/src";
 @source "../node_modules/@kolkrabbi/kol-component/src";
 @source "../node_modules/@kolkrabbi/kol-dashboards/src";
-
-/* Page canvas follows the theme surface. The DS themes components but never sets
-   a body background, so without this the page stays white in dark mode. */
-body {
-  background-color: var(--kol-surface-primary);
-  color: var(--kol-surface-on-primary);
-}
+@source "../node_modules/@kolkrabbi/kol-framework/src";
+@source "../node_modules/@kolkrabbi/kol-shell/src";

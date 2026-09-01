@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { GameArchiveTable } from '@kolkrabbi/kol-chess'
-import * as chessData from '@kolkrabbi/kol-chess/data'
+import * as chessData from '../data/sample-games.js'
 import { Icon } from '@kolkrabbi/kol-icons'
 import PageHeader from '../PageHeader'
 import { queueGame } from '../lib/gameHandoff'
@@ -31,9 +31,9 @@ export default function DatabasePage() {
   }
 
   return (
-    // page fence = the site standard (1800); content below the header takes
-    // the tighter 7xl measure
-    <div className="mx-auto max-w-[1800px] px-4 py-8 md:px-6 md:py-12">
+    // .kol-page = the DS page scaffold; the body below the header takes the
+    // canvas rung of the width scale
+    <div className="kol-page">
       <PageHeader
         title="Database"
         tabs={PAGE_TABS}
@@ -41,7 +41,7 @@ export default function DatabasePage() {
         onTabChange={setTab}
         action={tab === 'browse' && <PasteGame onLoad={loadOnBoard} />}
       />
-      <div className="max-w-7xl">
+      <div className="max-w-[var(--kol-content-canvas)]">
       <div className={tab === 'browse' ? '' : 'hidden'}>
         {/* provenance — the pipeline's first stage, clickable proof */}
         <p className="kol-mono-12 text-fg-64 mb-4">

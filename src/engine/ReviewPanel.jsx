@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useChessControls } from '@kolkrabbi/kol-chess'
+import { useChessControls, NotationPanel } from '@kolkrabbi/kol-chess'
 import { Badge } from '@kolkrabbi/kol-component'
 import { runGameReview, buildReview } from './reviewRunner'
 import { loadOpeningIndex } from '../openings/openings'
@@ -32,27 +32,6 @@ const COUNT_ORDER = [
 ]
 
 const formatAccuracy = (value) => (value === null ? '—' : value.toFixed(1))
-
-const MoveCell = ({ entry, byPly, moveIndex, selectPly }) => {
-  if (!entry) return <span className="flex-1" />
-  const reviewed = byPly.get(entry.ply)
-  return (
-    <button
-      type="button"
-      onClick={() => selectPly(entry.ply)}
-      className={`kol-mono-12 flex flex-1 items-center gap-1.5 rounded-sm px-1 py-0.5 text-left ${
-        moveIndex === entry.ply ? 'bg-fg-08' : ''
-      }`}
-    >
-      <span>{entry.san}</span>
-      {reviewed && reviewed.classification !== 'excellent' && (
-        <Badge variant={BADGE_VARIANT[reviewed.classification]} size="sm">
-          {reviewed.classification}
-        </Badge>
-      )}
-    </button>
-  )
-}
 
 // Game review: sequential d14 pass over the loaded game. Selecting the
 // Review tab IS the intent (direct-intent law) — `active` auto-starts the
@@ -147,17 +126,19 @@ const GameReview = ({ active = false }) => {
               </Badge>
             ))}
           </div>
-          <div>
-            {notationPairs.map((pair) => (
-              <div key={pair.moveNumber} className="flex items-center gap-2">
-                <span className="kol-mono-12 text-fg-secondary w-6 text-right">
-                  {pair.moveNumber}.
-                </span>
-                <MoveCell entry={pair.white} byPly={byPly} moveIndex={moveIndex} selectPly={selectPly} />
-                <MoveCell entry={pair.black} byPly={byPly} moveIndex={moveIndex} selectPly={selectPly} />
-              </div>
-            ))}
-          </div>
+          <NotationPanel
+            notationPairs={notationPairs}
+            activePly={moveIndex}
+            onSelectPly={selectPly}
+            decorate={(entry) => {
+              const r = byPly.get(entry.ply)
+              return r && r.classification !== 'excellent' ? (
+                <Badge variant={BADGE_VARIANT[r.classification]} size="sm">
+                  {r.classification}
+                </Badge>
+              ) : null
+            }}
+          />
         </>
       )}
     </div>

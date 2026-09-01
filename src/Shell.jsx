@@ -1,99 +1,71 @@
-import { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
-import { Tooltip, usePopover, PopoverPanel } from '@kolkrabbi/kol-component'
-import { Icon } from '@kolkrabbi/kol-icons'
-import { ThemeToggle } from '@kolkrabbi/kol-framework'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { AppShell } from '@kolkrabbi/kol-shell'
 import useEmbed from './useEmbed.js'
 
-/* The one nav system (quiet chrome): pawn = Home, icon-only surface links with
- * hover tooltips at md+, the same set folded into a hamburger popover below md.
- * Owns the board's height budget: bar h-12 (48) + page gutters (96) → 150. */
+/* THE APP TIER, NOT THE SITE TIER (2026-08-30). This was kol-framework's
+ * `AppShell` — the brand SideNav at 264px, with the theme toggle inside it.
+ * kol-chess is an application, not a site: four tool pages, no marketing
+ * surface. kol-shell's `AppShell` is the register that matches — a flat 48px
+ * `NavRail`, grab-to-open, no header and no footer.
+ *
+ * The 216px it gives back goes to the board, which was width-bound at 1280
+ * under the wide rail (the standing geometry complaint since 2026-08-27).
+ *
+ * Router-agnostic by design: the rail takes `currentPath` + `onNavigate` and
+ * knows nothing about react-router, so the wiring lives here.
+ *
+ * `touch="drawer"` (kol-shell 0.31.0). Below 768 the rail goes off-canvas, the
+ * content reclaims its 48px, and the package renders the trigger and the scrim.
+ *
+ * This was a local fold for one day — `MobileNav.jsx` plus a media block in
+ * `index.css` — filed as `ShellRailNoDrawerOnMobile` and shipped upstream the
+ * same day. The DS fixed both things that made the local version ugly: NavRail
+ * stops writing the `:root` width token in drawer mode, so no `!important` is
+ * needed, and the route-change effect is mode-aware instead of forcing the rail
+ * back open on every navigation.
+ */
 
-const NAV = [
-  { to: '/analysis', icon: 'grid', label: 'Board' },
-  { to: '/database', icon: 'terminal', label: 'Database' },
-  { to: '/stats', icon: 'stat-chart-a', label: 'Statistics' },
+const NAV_ITEMS = [
+  { icon: 'chess-pawn', path: '/', label: 'Overview' },
+  { icon: 'grid', path: '/analysis', label: 'Board' },
+  { icon: 'chess-rook', path: '/play', label: 'Play' },
+  { icon: 'terminal', path: '/database', label: 'Database' },
+  { icon: 'stat-chart-a', path: '/stats', label: 'Statistics' },
+  { icon: 'highlighter-circle', path: '/insights', label: 'Insights' },
+  { icon: 'info', path: '/bot', label: 'The bot' },
 ]
 
-/* Bar rung: one pick from the DS button ladder (sm 14 / md 16 / lg 18).
- * .kol-btn-nav (theme ≥0.11.4) = the navigation variant: square box, quiet
- * states; the active route lights via aria-current="page", which NavLink
- * stamps natively — no state classes needed. */
-const BAR = { size: 'md', glyph: 16 }
+/* Settings is a bottom rung, below the rule. `settingsPath` makes it TOGGLE
+ * rather than navigate — picking it again (or pressing `,`) returns you where
+ * you were instead of stranding you on the page. */
+const BOTTOM_ITEMS = [{ icon: 'nav-settings', path: '/settings', label: 'Settings' }]
 
-const iconLink = `kol-btn kol-btn-nav kol-btn-${BAR.size} kol-btn-icon`
-
-function MobileMenu() {
-  const [open, setOpen] = useState(false)
-  const popover = usePopover({ open, onOpenChange: setOpen, placement: 'bottom-end' })
-  return (
-    <div className="md:hidden">
-      <button
-        type="button"
-        aria-label="Menu"
-        className={iconLink}
-        ref={popover.refs.setReference}
-        {...popover.getReferenceProps()}
-      >
-        <Icon name="hamburger" size={BAR.glyph} />
-      </button>
-      <PopoverPanel popover={popover}>
-        <nav className="flex w-44 flex-col p-1">
-          {NAV.map(({ to, icon, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              onClick={() => setOpen(false)}
-              className={({ isActive }) =>
-                `flex items-center gap-2 rounded px-2 py-1.5 kol-mono-12 ${isActive ? 'text-emphasis' : 'text-fg-64'}`
-              }
-            >
-              <Icon name={icon} size={14} />
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-      </PopoverPanel>
-    </div>
-  )
-}
+const LOGOMARK = { svgUrl: '/favicon/favicon-kol-ds.svg', title: 'kol-chess' }
 
 export default function Shell() {
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  /* every hook before the embed branch — the flag is latched per document, but
+     the hook order is not allowed to depend on it */
   const embedded = useEmbed()
 
-  /* ?embed=1 — main content only, for iframing chess pages into the website's
-     workshop. The stage reserve drops to the page gutters alone: no bar. */
-  if (embedded) {
-    return (
-      <div className="[--chess-stage-reserve:102px]">
-        <Outlet />
-      </div>
-    )
-  }
+  /* ?embed=1 — main content only, for iframing chess pages into the
+     website's workshop. Chrome is dropped by absence, not by hiding. */
+  if (embedded) return <Outlet />
 
   return (
-    <div className="[--chess-stage-reserve:150px]">
-      <nav className="sticky top-0 z-40 flex h-12 items-center justify-between border-b border-fg-12 bg-surface-primary px-4 md:px-6">
-        <div className="flex items-center gap-1">
-          <Tooltip label="Home">
-            <NavLink to="/" end className={iconLink} aria-label="Home">
-              <Icon name="chess-pawn" size={BAR.glyph} />
-            </NavLink>
-          </Tooltip>
-          <div className="hidden items-center gap-1 md:flex">
-            {NAV.map(({ to, icon, label }) => (
-              <Tooltip key={to} label={label}>
-                <NavLink to={to} className={iconLink} aria-label={label}>
-                  <Icon name={icon} size={BAR.glyph} />
-                </NavLink>
-              </Tooltip>
-            ))}
-          </div>
-          <MobileMenu />
-        </div>
-        <ThemeToggle variant="icon" />
-      </nav>
+    <AppShell
+      items={NAV_ITEMS}
+      bottomItems={BOTTOM_ITEMS}
+      logomark={LOGOMARK}
+      currentPath={pathname}
+      onNavigate={navigate}
+      settingsPath="/settings"
+      settingsKey=","
+      touch="drawer"
+      navKeys
+    >
       <Outlet />
-    </div>
+    </AppShell>
   )
 }

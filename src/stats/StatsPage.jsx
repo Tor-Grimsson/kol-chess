@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { loadFullDataset } from '@kolkrabbi/kol-chess/data'
+import { loadFullDataset } from '../data/sample-games.js'
 import {
   DashboardGrid,
   GridCard,
@@ -30,10 +30,38 @@ const monthLabel = (month) => {
   return `${MONTHS[Number(m) - 1]} ${y}`
 }
 
+/* The footer line under a pillar: best and worst variation (min 25 games, so a
+ * lucky 2-game line cannot claim either), then the rating-band trend read as a
+ * single sentence — first band to last, which is the question that matters for a
+ * repertoire: does it still work when the opposition gets stronger? */
+const bandTrend = (o) => {
+  const bands = o.byBand.filter((b) => b.games >= 25)
+  const parts = []
+  if (o.best) parts.push(`best: ${o.best.label} ${formatPercent(o.best.scorePct)} (${o.best.games})`)
+  if (o.worst) parts.push(`worst: ${o.worst.label} ${formatPercent(o.worst.scorePct)} (${o.worst.games})`)
+  if (bands.length >= 2) {
+    const lo = bands[0]
+    const hi = bands[bands.length - 1]
+    const delta = hi.scorePct - lo.scorePct
+    const verb = delta >= 3 ? 'holds up' : delta <= -3 ? 'falls away' : 'holds flat'
+    parts.push(`${verb} with rating: ${lo.band} ${formatPercent(lo.scorePct)} → ${hi.band} ${formatPercent(hi.scorePct)}`)
+  }
+  return parts.join(' · ') || undefined
+}
+
 const recordCell = (t) => `${t.win}–${t.loss}–${t.draw}`
 
 const OPENING_COLUMNS = [
   { header: 'OPENING', accessor: 'family', className: 'kol-table-cell-text', render: (r) => <span>{r.family}</span> },
+  { header: 'GAMES', accessor: 'games', className: 'kol-table-cell-text', render: (r) => <span>{r.games.toLocaleString()}</span> },
+  { header: 'W–L–D', accessor: 'record', className: 'kol-table-cell-text', render: (r) => <span className="kol-table-token bg-fg-08">{recordCell(r)}</span> },
+  { header: 'SCORE', accessor: 'scorePct', className: 'kol-table-cell-text', render: (r) => <span>{formatPercent(r.scorePct)}</span> }
+]
+
+/* Variation rows under a repertoire pillar. Same grammar as OPENING_COLUMNS,
+ * but the first column is the variation inside the family, not the family. */
+const VARIATION_COLUMNS = [
+  { header: 'VARIATION', accessor: 'label', className: 'kol-table-cell-text', render: (r) => <span>{r.label}</span> },
   { header: 'GAMES', accessor: 'games', className: 'kol-table-cell-text', render: (r) => <span>{r.games.toLocaleString()}</span> },
   { header: 'W–L–D', accessor: 'record', className: 'kol-table-cell-text', render: (r) => <span className="kol-table-token bg-fg-08">{recordCell(r)}</span> },
   { header: 'SCORE', accessor: 'scorePct', className: 'kol-table-cell-text', render: (r) => <span>{formatPercent(r.scorePct)}</span> }
@@ -67,7 +95,7 @@ const StatsPage = () => {
   const stats = useMemo(() => (games ? computeStats(games) : null), [games])
 
   return (
-    <div className="mx-auto max-w-[1800px] px-4 py-8 md:px-6 md:py-12">
+    <div className="kol-page">
       <PageHeader
         title="Statistics"
         meta={
@@ -218,6 +246,28 @@ const StatsPage = () => {
               }
             />
           </GridCard>
+
+          {/* ── repertoire pillars ──
+            * The named openings, each with its own card: the score line, the
+            * rating-band trend (does it hold up as the opposition strengthens?)
+            * and the variations underneath.
+            *
+            * The subtitle carries the transposition caveat on every card, because
+            * it is true of every row: `eco` is chess.com's classification of where
+            * the game ENDED UP, so a line reached by transposition counts the same
+            * as one chosen at move 1. Stating it once in a doc would not reach the
+            * person reading the number. */}
+          {stats.namedOpenings.map((o) => (
+            <GridCard key={o.key} span="2x2">
+              <DashTableCard
+                title={o.label}
+                subtitle={`as ${o.side} · ${o.mine.games.toLocaleString()} games · ${formatPercent(o.mine.scorePct)} · as classified, transpositions included`}
+                rows={o.variations}
+                columns={VARIATION_COLUMNS}
+                footer={bandTrend(o)}
+              />
+            </GridCard>
+          ))}
 
           {/* ── opponents + activity ── */}
           <GridCard span="2x2">

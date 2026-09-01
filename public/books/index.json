@@ -1,0 +1,67 @@
+{
+ "masters": [
+  {
+   "key": "fischer",
+   "label": "Bobby Fischer",
+   "player": "Fischer, Robert James",
+   "games": 827,
+   "positions": 7175
+  },
+  {
+   "key": "tal",
+   "label": "Mikhail Tal",
+   "player": "Tal, Mihail",
+   "games": 2431,
+   "positions": 20616
+  },
+  {
+   "key": "capablanca",
+   "label": "José Raúl Capablanca",
+   "player": "Capablanca, Jose Raul",
+   "games": 597,
+   "positions": 5877
+  },
+  {
+   "key": "alekhine",
+   "label": "Alexander Alekhine",
+   "player": "Alekhine, Alexander",
+   "games": 1654,
+   "positions": 16544
+  },
+  {
+   "key": "petrosian",
+   "label": "Tigran Petrosian",
+   "player": "Petrosian, Tigran V",
+   "games": 1893,
+   "positions": 17301
+  },
+  {
+   "key": "botvinnik",
+   "label": "Mikhail Botvinnik",
+   "player": "Botvinnik, Mikhail",
+   "games": 891,
+   "positions": 8689
+  },
+  {
+   "key": "keres",
+   "label": "Paul Keres",
+   "player": "Keres, Paul",
+   "games": 1571,
+   "positions": 14163
+  },
+  {
+   "key": "larsen",
+   "label": "Bent Larsen",
+   "player": "Larsen, Bent",
+   "games": 2268,
+   "positions": 22078
+  },
+  {
+   "key": "olafsson",
+   "label": "Friðrik Ólafsson",
+   "player": "Olafsson, Fridrik",
+   "games": 892,
+   "positions": 8795
+  }
+ ]
+}

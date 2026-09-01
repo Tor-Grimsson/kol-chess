@@ -1,4 +1,4 @@
-import { Chess } from 'chess.js'
+import { Chess } from './rules.js'
 
 // Accepts chess.com game URLs in their common shapes:
 //   chess.com/game/live/123, /game/daily/123, /live/game/123, /analysis/game/live/123

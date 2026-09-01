@@ -3,7 +3,7 @@ import duckdbWasm from '@duckdb/duckdb-wasm/dist/duckdb-mvp.wasm?url'
 import mvpWorker from '@duckdb/duckdb-wasm/dist/duckdb-browser-mvp.worker.js?url'
 import duckdbWasmEh from '@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url'
 import ehWorker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url'
-import { loadFullDataset } from '@kolkrabbi/kol-chess/data'
+import { loadFullDataset } from '../data/sample-games.js'
 
 /* DuckDB-WASM over the full archive, fully self-hosted (wasm + workers come
  * from the installed package via Vite ?url — no CDN dependency beyond the

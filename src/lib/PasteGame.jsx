@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import * as chessData from '@kolkrabbi/kol-chess/data'
+import * as chessData from '../data/sample-games.js'
 import { Button, Textarea, usePopover, PopoverPanel } from '@kolkrabbi/kol-component'
 import { resolveGameInput } from './resolveGame'
 

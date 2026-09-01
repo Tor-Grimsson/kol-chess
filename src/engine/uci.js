@@ -1,4 +1,4 @@
-import { Chess } from 'chess.js'
+import { Chess } from '../lib/rules.js'
 
 // Parse one UCI `info` line → {depth, multipv, cp, mate, pv} or null for anything else.
 // Scores are from the side-to-move's perspective (UCI convention).

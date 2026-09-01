@@ -234,6 +234,103 @@ export const computeTerminations = (games) => {
 }
 
 // The one entry the dashboard consumes.
+/* ── named openings (the repertoire pillars) ──
+ *
+ * TRANSPOSITION IS THE CAVEAT, and it is load-bearing (user ruling 2026-08-30:
+ * "often times openings transition from a to b in the move order, not by direct
+ * choice"). `eco` is chess.com's TERMINAL classification of a game — the name it
+ * had by the end of the opening phase, NOT the opening the player chose at move 1.
+ * A game that began 1.d4 f5 and became a Dutch is counted here; so is one that
+ * began 1.Nf3 and transposed in. From metadata alone the two are indistinguishable.
+ *
+ * So everything below is honestly labelled "as classified", and the UI says so.
+ * The real chose-vs-arrived split needs the move order out of the PGN corpus —
+ * that is the precompute's job, and this function is what it will enrich.
+ *
+ * `side` is the colour the opening is playable as: a King's Gambit is White's,
+ * a Dutch is Black's. Games on the other side are the opponent playing it AT us,
+ * which is a different question and is reported separately rather than merged.
+ */
+export const NAMED_OPENINGS = [
+  { key: 'kings-gambit', label: "King's Gambit", pattern: /^Kings-Gambit/i, side: 'white' },
+  { key: 'dutch', label: 'Dutch Defense', pattern: /^Dutch/i, side: 'black' },
+  { key: 'french', label: 'French Defense', pattern: /^French/i, side: 'black' }
+]
+
+// slug after /openings/, or '' — the raw classification string
+const ecoSlug = (ecoUrl) => (ecoUrl ? String(ecoUrl).split('/openings/')[1] ?? '' : '')
+
+/* The variation label under a family: the slug minus the family words, so
+ * `Kings-Gambit-Accepted-Fischer-Defense-4.Bc4` reads as its variation rather
+ * than repeating the family on every row. Falls back to the family itself for
+ * the bare line (a game classified as just `Kings-Gambit`). */
+const variationLabel = (slug, family) => {
+  const words = slug.split('-')
+  const familyWords = family.split(' ').length
+  const rest = words.slice(familyWords).join(' ').trim()
+  return rest || 'Main line'
+}
+
+export const computeNamedOpening = (games, spec, { topVariations = 6 } = {}) => {
+  const mine = tally()
+  const against = tally()
+  const variations = new Map()
+  const byBand = new Map()
+  const byYear = new Map()
+
+  for (const g of games) {
+    const slug = ecoSlug(g.eco)
+    if (!slug || !spec.pattern.test(slug)) continue
+
+    /* the opening is `spec.side`'s to play; on the other colour it was played AT us */
+    const isMine = g.playerColor === spec.side
+    addResult(isMine ? mine : against, g.playerResult)
+    if (!isMine) continue
+
+    const family = openingFamily(g.eco) ?? spec.label
+    const label = variationLabel(slug, family)
+    if (!variations.has(label)) variations.set(label, tally())
+    addResult(variations.get(label), g.playerResult)
+
+    const band = Math.round((g.player?.rating ?? 0) / 100) * 100
+    if (band) {
+      if (!byBand.has(band)) byBand.set(band, tally())
+      addResult(byBand.get(band), g.playerResult)
+    }
+
+    const year = g.month?.slice(0, 4)
+    if (year) {
+      if (!byYear.has(year)) byYear.set(year, tally())
+      addResult(byYear.get(year), g.playerResult)
+    }
+  }
+
+  const withScore = (t) => ({ ...t, scorePct: pct(score(t.win, t.draw), t.games) })
+  const listOf = (map, keyName) =>
+    [...map.entries()]
+      .map(([k, t]) => ({ [keyName]: k, ...withScore(t) }))
+      .sort((a, b) => (keyName === 'label' ? b.games - a.games : String(a[keyName]).localeCompare(String(b[keyName]))))
+
+  const varList = listOf(variations, 'label')
+
+  return {
+    key: spec.key,
+    label: spec.label,
+    side: spec.side,
+    mine: withScore(mine),
+    against: withScore(against),
+    variations: varList.slice(0, topVariations),
+    /* best/worst need enough games to mean anything — a 2-game 100% is noise */
+    best: [...varList].filter((v) => v.games >= 25).sort((a, b) => b.scorePct - a.scorePct)[0] ?? null,
+    worst: [...varList].filter((v) => v.games >= 25).sort((a, b) => a.scorePct - b.scorePct)[0] ?? null,
+    byBand: listOf(byBand, 'band'),
+    byYear: listOf(byYear, 'year')
+  }
+}
+
+export const computeNamedOpenings = (games) =>
+  NAMED_OPENINGS.map((spec) => computeNamedOpening(games, spec))
+
 export const computeStats = (games) => {
   const timeClasses = computeTimeClasses(games)
   const dominantClass = timeClasses[0]?.timeClass ?? 'blitz'
@@ -245,6 +342,7 @@ export const computeStats = (games) => {
     records: computeRatingRecords(games),
     opponents: computeOpponents(games),
     openings: computeOpenings(games),
+    namedOpenings: computeNamedOpenings(games),
     timeClasses,
     activity: computeActivity(games),
     streaks: computeStreaks(games),

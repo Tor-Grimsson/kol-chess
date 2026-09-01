@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ChessControlsProvider, GameArchiveTable } from '@kolkrabbi/kol-chess'
-import * as chessData from '@kolkrabbi/kol-chess/data'
+import * as chessData from './data/sample-games.js'
 import { Button, FullscreenOverlay } from '@kolkrabbi/kol-component'
 import { EngineProvider } from './engine/EngineContext'
 import Stage from './board/Stage'
@@ -24,7 +24,7 @@ function App() {
   const [railTab, setRailTab] = useState('controls')
 
   return (
-    <div className="relative mx-auto max-w-[1800px] px-4 py-8 md:px-6 md:py-12 [--chess-stage-reserve:250px]">
+    <div className="kol-page relative [--chess-stage-reserve:250px]">
       <PageHeader
         title="Game Analysis"
         tabs={RAIL_TABS}
@@ -38,11 +38,9 @@ function App() {
       />
       <ChessControlsProvider externalGame={loadedGame} chessData={chessData}>
         <EngineProvider>
-          {/* stacked (<lg) needs a real height frame for its internal scroll —
-              viewport minus shell bar + gutters + header (~232) */}
-          <div className="h-[calc(100dvh-232px)] min-h-0 lg:h-auto">
-            <Stage railTab={railTab} />
-          </div>
+          {/* stacked (<lg) scrolls as a page — board, then the rail at its
+              natural height. lg+ the board owns the height (Stage). */}
+          <Stage railTab={railTab} />
         </EngineProvider>
       </ChessControlsProvider>
 

@@ -49,8 +49,11 @@ const Rail = ({ tab }) => {
       <PiecePalette className="hidden border-t border-oq-08 bg-fg-02 p-3 lg:block" />
 
       <div className="flex min-h-0 flex-1 flex-col gap-4 p-3">
+        {/* ponytail: [&>div:first-child]:min-w-0 lets the label column shrink so the
+            star + settings buttons stay on-screen at phone widths — upstream fix
+            is min-w-0 + truncate inside kol-chess GamePicker */}
         <GamePicker
-          className="flex-shrink-0"
+          className="flex-shrink-0 [&>div:first-child]:min-w-0 [&_.kol-dd-trigger]:overflow-hidden"
           actions={
             <Button
               variant="ghost"

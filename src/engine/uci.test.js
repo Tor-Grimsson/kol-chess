@@ -1,7 +1,7 @@
 // Run: node --test src/engine/uci.test.js
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { Chess } from 'chess.js'
+import { Chess } from '../lib/rules.js'
 import {
   parseInfoLine,
   toWhiteCp,

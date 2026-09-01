@@ -28,3 +28,14 @@ docs/.obsidian/
 
 # Agent boot symlink (scaffold-llm-context)
 LLM_RULES.md
+_tmp/
+
+# ephemeral: /kol-goal loop state (session-keyed)
+.kol/llm-context/.active-goal-*.md
+
+# Python training stack (train/) — the venv and the generated tensors.
+# The SCRIPTS are tracked; the environment and the multi-hundred-MB dataset
+# they produce are not.
+train/.venv39/
+train/__pycache__/
+train/data/

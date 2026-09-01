@@ -8,7 +8,7 @@ import Rail from './Rail'
  * Geometry:
  * - married heights: at lg+ the BOARD defines the row — the rail is
  *   absolutely pinned to the board's box (inset-y-0), content scrolls inside.
- *   Stacked below lg.
+ *   Stacked below lg at natural height — the page scrolls, nothing clips.
  * - justify-between (2026-07-28): the stage spans the page fence — the board
  *   anchors LEFT (locks to the title edge, square-capped off viewport height
  *   via --chess-stage-reserve), the rail anchors RIGHT (locks to the Games
@@ -36,11 +36,11 @@ const widthCap = 'max-w-[calc(100dvh-380px)]'
 
 const Stage = ({ railTab }) => {
   return (
-    <div className="flex h-full min-h-0 flex-col gap-4 lg:block lg:h-auto lg:relative lg:pr-[calc(clamp(440px,30vw,560px)_+_32px)]">
+    <div className="flex flex-col gap-4 lg:block lg:relative lg:pr-[calc(clamp(440px,30vw,560px)_+_32px)]">
       <div className={`mx-auto w-full ${widthCap} flex-shrink-0 min-w-0 lg:mx-0 lg:max-w-[calc(100dvh_-_var(--chess-stage-reserve,200px))]`}>
         <BoardView />
       </div>
-      <div className={`mx-auto min-h-0 flex-1 w-full ${widthCap} overflow-hidden lg:mx-0 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[clamp(440px,30vw,560px)] lg:max-w-none lg:flex-none`}>
+      <div className={`mx-auto w-full ${widthCap} lg:overflow-hidden lg:mx-0 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[clamp(440px,30vw,560px)] lg:max-w-none lg:flex-none`}>
         <Rail tab={railTab} />
       </div>
     </div>
