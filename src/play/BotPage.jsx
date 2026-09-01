@@ -97,16 +97,16 @@ const BotPage = () => {
         }
       />
 
-      <Block label="THE SHORT VERSION" headline="It predicts the move he would play">
+      <Block label="THE SHORT VERSION" headline="It predicts the move I would play">
         <P>
-          A neural network is shown a position and asked which move Biskupstunga plays here — not
-          which move is best. It was trained on every move he made in 27,200 chess.com games, and
-          it is told his rating at the time, so the same network answers differently at 1200 and at
+          A neural network is shown a position and asked which move I play here — not which move
+          is best. It was trained on every move I made in 27,200 chess.com games, and it is told
+          my rating at the time, so the same network answers differently at 1200 and at
           1900.
         </P>
         <P>
           An opening book still handles the first few moves, because exact memorised lines beat a
-          network in positions he has literally been in hundreds of times. Everything after that —
+          network in positions I have literally been in hundreds of times. Everything after that —
           which used to be a generic engine at a fixed strength, and was nobody — is the model.
         </P>
         <div className="flex flex-wrap gap-2">
@@ -118,10 +118,10 @@ const BotPage = () => {
         </div>
       </Block>
 
-      <Block label="1 · THE DATA" headline="Every move he ever made becomes one training example">
+      <Block label="1 · THE DATA" headline="Every move I ever made becomes one training example">
         <P>
-          One sample per move <em>he</em> played: the position he faced, the move he chose, and his
-          rating. Nothing consults an engine — the label is what he actually played, mistakes
+          One sample per move <em>I</em> played: the position I faced, the move I chose, and my
+          rating. Nothing consults an engine — the label is what I actually played, mistakes
           included, because the mistakes are the personality.
         </P>
         <P>
@@ -170,9 +170,9 @@ const BotPage = () => {
         </div>
       </Block>
 
-      <Block label="3 · THE TRAINING" headline="Predict his move, and split so the score is honest">
+      <Block label="3 · THE TRAINING" headline="Predict my move, and split so the score is honest">
         <P>
-          Cross-entropy against the move he played. The part that takes discipline is not the loop
+          Cross-entropy against the move I played. The part that takes discipline is not the loop
           but the split: dividing moves at random puts the same game's opening on both sides of the
           fence, and the model scores well by recognising positions it was trained on. Whole games
           are held out instead.
@@ -180,8 +180,8 @@ const BotPage = () => {
         <CodeBlock language="python" filename="train/finetune.py" size="sm"
           code={excerpt(finetuneSrc, 'split_by_game')} />
         <P>
-          The metric is move-match — of his held-out moves, how many does the model pick — because
-          loss going down only proves the optimiser works. The number to beat is guessing his
+          The metric is move-match — of my held-out moves, how many does the model pick — because
+          loss going down only proves the optimiser works. The number to beat is guessing my
           single most common move every time.
         </P>
         <CodeBlock language="python" filename="train/finetune.py" size="sm"
@@ -197,9 +197,9 @@ const BotPage = () => {
         )}
         {model && (
           <div className="flex flex-col">
-            <Row k="Move match" v={`${pct(model.move_match)} of his held-out moves picked exactly`} />
-            <Row k="Top-3" v={`${pct(model.top3)} — his move is in the model's top three`} />
-            <Row k="Baseline" v={`${pct(model.baseline)} — always guessing his most common move`} />
+            <Row k="Move match" v={`${pct(model.move_match)} of my held-out moves picked exactly`} />
+            <Row k="Top-3" v={`${pct(model.top3)} — my move is in the model's top three`} />
+            <Row k="Baseline" v={`${pct(model.baseline)} — always guessing my most common move`} />
             <Row k="Lift over baseline" v={lift ? `${lift}×` : '—'} />
             <Row k="Held out" v="whole games, never seen in training" />
             <Row
@@ -225,11 +225,11 @@ const BotPage = () => {
         </P>
       </Block>
 
-      <Block label="THE EVIDENCE" headline="It reproduces his repertoire, unprompted">
+      <Block label="THE EVIDENCE" headline="It reproduces my repertoire, unprompted">
         <P>
           The strongest thing on this page, and the cheapest to check. The network was never shown
-          the opening book — it only ever saw board planes and the move he played. If it
-          independently arrives at his repertoire, it has learned <em>him</em> rather than learned
+          the opening book — it only ever saw board planes and the move I played. If it
+          independently arrives at my repertoire, it has learned <em>me</em> rather than learned
           chess.
         </P>
         {model?.repertoire ? (
@@ -242,7 +242,7 @@ const BotPage = () => {
               k="After 1.e4 e5"
               v={repertoireLine(model.repertoire.after_e4_e5)}
             />
-            <Row k="His book says" v="e4 13,391× vs d4 99× · then f4 3,748×, the King's Gambit" />
+            <Row k="My book says" v="e4 13,391× vs d4 99× · then f4 3,748×, the King's Gambit" />
           </div>
         ) : (
           <P>No model trained yet.</P>
@@ -279,8 +279,8 @@ const BotPage = () => {
         </P>
         <P>
           <strong>It has no idea whether it is winning.</strong> There is a policy head and no value
-          head: it predicts the move he would play, not the move that wins. In a lost position it
-          plays what he plays in lost positions, which is the point, but it cannot tell you that.
+          head: it predicts the move I would play, not the move that wins. In a lost position it
+          plays what I play in lost positions, which is the point, but it cannot tell you that.
         </P>
         <P>
           <strong>It was trained on a CPU.</strong> Six blocks of 64 filters on an Intel iMac with no
@@ -288,13 +288,13 @@ const BotPage = () => {
         </P>
         <P>
           <strong>The years are lopsided.</strong> 2017 contributes 8,984 games and 2022 contributes
-          382, so it knows early him far better than recent him.
+          382, so it knows early me far better than recent me.
         </P>
       </Block>
 
       <Block label="STATUS" headline="Ongoing, and openly unfinished">
         <P>
-          The book is still there for the opening and the think-time still comes from his real
+          The book is still there for the opening and the think-time still comes from my real
           clocks. What changed is everything after move three, which used to be a stranger.
         </P>
         {book && (

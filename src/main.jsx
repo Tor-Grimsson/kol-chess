@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { ModalProvider } from '@kolkrabbi/kol-component'
 import './index.css'
 import App from './App.jsx'
 import StatsPage from './stats/StatsPage.jsx'
@@ -16,7 +17,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route element={<Shell />}>
+        {/* ModalProvider mounts once at the root so useModal's confirm/prompt
+            portal floats above the shell — the DS's promise-based dialogs. */}
+        <Route element={<ModalProvider><Shell /></ModalProvider>}>
           <Route index element={<LandingPage />} />
           <Route path="analysis" element={<App />} />
           <Route path="games" element={<Navigate to="/database" replace />} />

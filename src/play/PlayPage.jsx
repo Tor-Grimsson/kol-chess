@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Chess } from '../lib/rules.js'
 import { ChessBoard, NotationPanel } from '@kolkrabbi/kol-chess'
-import { Button, Badge, Dropdown, ToggleSwitch } from '@kolkrabbi/kol-component'
+import { Button, Badge, Dropdown, ToggleSwitch, useModal } from '@kolkrabbi/kol-component'
 import PageHeader from '../PageHeader'
 import { candidates, pickMove } from './styleBook.js'
 import { engineMove, uciToMove, clampElo } from './opponent.js'
 import { modelMove } from './personality.js'
-import { findOpponent, loadBook } from './opponents.js'
+import { findOpponent, loadBook, initialsOf } from './opponents.js'
 import { findControl, formatClock, engineMovetime, thinkTimeMs } from './timeControls.js'
 import NewGameDialog from './NewGameDialog.jsx'
 import PlayLobby from './PlayLobby.jsx'
@@ -66,6 +66,7 @@ const toNotationPairs = (sans) => {
 }
 
 const PlayPage = () => {
+  const { confirm } = useModal()
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [book, setBook] = useState(null)
@@ -325,7 +326,12 @@ const PlayPage = () => {
     setDialogOpen(true)
   }
 
-  const resign = () => {
+  /* Both destructive game actions confirm first (field review 01/09, F4 —
+     "like chess.com does"): resign ends the game, takeback rewrites it, and
+     each sat one stray tap from the board on a phone. The DS's promise-based
+     confirm; ModalProvider mounts at the root. */
+  const resign = async () => {
+    if (!(await confirm('Resign the game?', { okLabel: 'Resign' }))) return
     abortRef.current?.abort()
     setThinking(false)
     setResult('You resigned')
@@ -336,8 +342,9 @@ const PlayPage = () => {
    * so clearing it here could do exactly one thing: undo a loss. It resurrected
    * a flagged game with the clock frozen at 0:00, which then never flagged
    * again. Checkmate still un-does naturally, because the position changes. */
-  const takeback = () => {
+  const takeback = async () => {
     if (over || !moves.length) return
+    if (!(await confirm('Take back the last move?', { okLabel: 'Take back' }))) return
     abortRef.current?.abort()
     setThinking(false)
     setLastSource(null)
@@ -366,20 +373,28 @@ const PlayPage = () => {
   const myKey = myColour === 'white' ? 'w' : 'b'
   const theirKey = myColour === 'white' ? 'b' : 'w'
 
-  /* One clock row, used above and below the board. `live` lights the side whose
-     time is actually running, which is the only state a chess clock has to show. */
-  const ClockRow = ({ side, label }) => {
+  /* Player bar, above and below the board — chess.com's shape, not a form row
+     (field review 01/09, F5: the old full-width bordered row read as a text
+     input). Initials tile · name · clock chip; the chip only exists when a
+     clock does, and `live` lights the side whose time is actually running. */
+  const PlayerBar = ({ side, label }) => {
     const live = turn === side && started && !over
+    const clock = clocks[side]
     return (
-      <div
-        className={`flex items-baseline justify-between gap-3 border px-3 py-2 ${
-          live ? 'border-fg-24 bg-fg-04' : 'border-fg-08'
-        }`}
-      >
-        <span className="kol-helper-12 text-fg-64 min-w-0 truncate">{label}</span>
-        <span className={`kol-mono-14 shrink-0 ${live ? 'text-fg-96' : 'text-fg-64'}`}>
-          {formatClock(clocks[side])}
+      <div className="flex min-w-0 items-center gap-3">
+        <span className="kol-helper-12 text-fg-64 flex h-10 w-10 shrink-0 items-center justify-center bg-fg-08">
+          {initialsOf(label)}
         </span>
+        <span className="kol-mono-14 text-fg-96 min-w-0 truncate">{label}</span>
+        {clock !== null && (
+          <span
+            className={`kol-mono-14 ml-auto shrink-0 border px-3 py-1.5 tabular-nums ${
+              live ? 'border-fg-24 bg-fg-08 text-fg-96' : 'border-fg-08 text-fg-48'
+            }`}
+          >
+            {formatClock(clock)}
+          </span>
+        )}
       </div>
     )
   }
@@ -410,7 +425,7 @@ const PlayPage = () => {
       {inGame && (
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <div className="flex w-full min-w-0 flex-col gap-2 lg:max-w-[calc(100dvh-220px)]">
-          <ClockRow side={theirKey} label={opponent.label} />
+          <PlayerBar side={theirKey} label={opponent.label} />
 
           {/* LEGALITY FROM OUR ENGINE, NOT THE BOARD'S (kol-chess 0.10.0).
               `dests` is the seam we filed and the user ruled in: supply it and
@@ -427,7 +442,7 @@ const PlayPage = () => {
             onMove={onMove}
           />
 
-          <ClockRow side={myKey} label="You" />
+          <PlayerBar side={myKey} label="You" />
 
           {promotion && (
             <div className="flex flex-wrap items-center gap-2 pt-1">

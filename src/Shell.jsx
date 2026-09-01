@@ -40,6 +40,12 @@ const NAV_ITEMS = [
  * you were instead of stranding you on the page. */
 const BOTTOM_ITEMS = [{ icon: 'nav-settings', path: '/settings', label: 'Settings' }]
 
+/* The favicon doubles as the rail mark. It carries an embedded
+   `<style> svg { color … } </style>` for its own tab context — which leaked
+   document-global when the rail inlined it and froze every icon's ink
+   (LogomarkInlineStyleLeak, field review 01/09). Safe since kol-shell 0.32.0:
+   Logomark strips <style>/<script>/on* from fetched marks, so the one-day
+   styleless twin retired to `_tmp/2026-09-01-logomark-twin-retired/`. */
 const LOGOMARK = { svgUrl: '/favicon/favicon-kol-ds.svg', title: 'kol-chess' }
 
 export default function Shell() {

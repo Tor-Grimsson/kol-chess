@@ -126,8 +126,12 @@ const NewGameDialog = ({ open, initial, onStart, onClose }) => {
           <div className="flex flex-col gap-1.5">
             <label className="kol-helper-12 text-fg-64 flex flex-col gap-1.5">
               OPPONENT
+              {/* `lg`, not the sm default — the two form fields carry the
+                * sheet's scale alongside the lg Start game; the preset chips
+                * stay sm because they are options, not fields. */}
               <Dropdown
                 className="w-full"
+                size="lg"
                 value={draft.opponentKey}
                 options={OPPONENTS.map((o) => ({ value: o.key, label: o.label }))}
                 onChange={(v) => setDraft((d) => ({ ...d, opponentKey: v }))}
@@ -140,6 +144,7 @@ const NewGameDialog = ({ open, initial, onStart, onClose }) => {
             YOU PLAY
             <Dropdown
               className="w-full"
+              size="lg"
               value={draft.colour}
               options={COLOURS}
               onChange={(v) => setDraft((d) => ({ ...d, colour: v }))}

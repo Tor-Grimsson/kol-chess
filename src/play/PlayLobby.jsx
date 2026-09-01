@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, ContentCollection, ContentRow } from '@kolkrabbi/kol-component'
-import { OPPONENTS } from './opponents.js'
+import { OPPONENTS, initialsOf } from './opponents.js'
 
 /* /play BEFORE a game exists (2026-08-31).
  *
@@ -20,14 +20,6 @@ import { OPPONENTS } from './opponents.js'
  */
 
 const INDEX_URL = `${import.meta.env.BASE_URL}books/index.json`
-
-/* Initials for the card's mark — "José Raúl Capablanca" → JC, "Me — …" → ME. */
-const initialsOf = (label) => {
-  const clean = label.replace(/\s*—.*$/, '').trim()
-  if (clean.toLowerCase() === 'me') return 'ME'
-  const words = clean.split(/\s+/).filter(Boolean)
-  return ((words[0]?.[0] ?? '') + (words[words.length - 1]?.[0] ?? '')).toUpperCase()
-}
 
 /* THE DS ROW (kol-component 0.147.0). This was a hand-rolled button here for
  * one evening — filed as `ContentRowRosterVariant` and shipped upstream the

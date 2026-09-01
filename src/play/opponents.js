@@ -40,6 +40,17 @@ export const OPPONENTS = [
 
 export const findOpponent = (key) => OPPONENTS.find((o) => o.key === key) ?? OPPONENTS[0]
 
+/* Initials for a roster tile or player bar — "José Raúl Capablanca" → JC,
+   "Me — …" → ME, a single word ("You") → its first two letters. Lives here
+   because both the lobby roster and the play page's player bars draw it. */
+export const initialsOf = (label) => {
+  const clean = label.replace(/\s*—.*$/, '').trim()
+  if (clean.toLowerCase() === 'me') return 'ME'
+  const words = clean.split(/\s+/).filter(Boolean)
+  if (words.length === 1) return clean.slice(0, 2).toUpperCase()
+  return ((words[0]?.[0] ?? '') + (words[words.length - 1]?.[0] ?? '')).toUpperCase()
+}
+
 const cache = new Map()
 
 export const loadBook = async (key) => {

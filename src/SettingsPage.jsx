@@ -69,7 +69,10 @@ export default function SettingsPage() {
                 on a wide page. */}
             {SHORTCUTS.map(([keys, what]) => (
               <SettingsRow key={keys} label={keys} align="fill">
-                <span className="kol-helper-12 text-fg-64">{what}</span>
+                {/* kol-mono, not kol-helper: these sentences wrap on a phone,
+                    and helper is line-height-1 single-line chrome — the type
+                    fault line. */}
+                <span className="kol-mono-12 text-fg-64">{what}</span>
               </SettingsRow>
             ))}
           </LabeledControlSection>

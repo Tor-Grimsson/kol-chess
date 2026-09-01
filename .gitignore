@@ -39,3 +39,4 @@ _tmp/
 train/.venv39/
 train/__pycache__/
 train/data/
+.playwright-mcp/
